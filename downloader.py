@@ -4,8 +4,11 @@
 import re
 import os
 import argparse
+import importlib
 import xml.dom.minidom
 import collections
+
+import engines
 
 pattern_type2 = [
     re.compile(r"[\._ \-][Ss]([0-9]+)[\.\-]?[Ee]([0-9]+)([^\\/]*)"), # s01e02...
@@ -41,13 +44,24 @@ class Search(object):
         self.e = None
 
     def __repr__(self):
-        s = self.name
-        if self.s is not None: s += " %i" % self.s
-        if self.e is not None: s += " %i" % self.e
-        return s
+        s = ' '.join(filter(lambda x: x.isalnum(), re.split("(\W+)", self.name.lower())))
+        if self.s is not None: s += " %02i" % self.s
+        if self.e is not None: s += " %02i" % self.e
+        return s.replace(' ', '+')
 
     def __str__(self):
         return self.__repr__()
+
+
+
+def load_class(full_class_string):
+    class_data  = full_class_string.split(".")
+    module_path = ".".join(class_data[:-1])
+    class_str   = class_data[-1]
+
+    module = importlib.import_module(module_path)
+
+    return getattr(module, class_str)
 
 
 def get_next_file(directory, stype):
@@ -85,15 +99,33 @@ def get_next_file(directory, stype):
 
     return search_file
 
+def is_right_file(filename, result_file):
+    f1 = filename.name.lower()
+    f2 = result_file.lower()
 
-def download(download_list):
-    from engines.frenchtorrentdb import Frenchtorrentdb
-    import sys
-    e = Frenchtorrentdb()
-    e.get("toto")
-    sys.exit(42)
-#    for f in download_list:
-#        print f
+    if filename.type == 2:
+        if filename.s:
+            if f2.find("%02i" % filename.s) == -1:  return False
+        if f2.find("%02i" % filename.e) == -1: return False
+
+    for fname in filter(lambda x: x.isalpha(), re.split("(\W+)", f1)):
+        if f2.find(fname) == -1: 
+            return False
+
+    return True
+
+def download(download_list, engines_list):
+    for f in download_list:
+        for e in engines_list:
+            print "\t* searching [ %s ]" % f
+            res = e.get(f)
+            if not len(res):
+                print "[%s] No result for %s" % (e.name(), f)
+                continue
+
+            for d in filter(lambda r : is_right_file(f, r['filename']), res):
+                print  "[{0}] Seed: {1:3} File: {2}".format(e.name(), d['seed'], d['filename'])
+
 
 def main(config_file):
     cfg = Config(config_file)
@@ -108,18 +140,24 @@ def main(config_file):
                 nfd = len(os.listdir(f))
             except OSError:
                 continue
-
-            if nfd == 0 and d.type == 1:
-                dwl.append(Search(f, d.type))
-            elif nfd == 0:
-                dwl.append(Search("%s %i" % (f, 01), d.type))
-            elif d.type != 1:
+            
+            if nfd == 0:
+                if d.type == 1: 
+                    dwl.append(Search(f, d.type))
+                elif d.type == 2:
+                    dwl.append(Search("%s %i" % (f, 01), d.type))
+            elif d.type == 2:
                 dlfile = get_next_file(f, d.type)
                 if dlfile is not None:
                     dlfile.e += 1
                     dwl.append(dlfile)
 
-    download(dwl)
+    engines_list = []
+    for e in engines.__all__:
+        cl = load_class("%s.%s.%s" % ('engines', e, e.capitalize()))
+        engines_list.append(cl())
+
+    download(dwl, engines_list)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description     = 'Download files from torrent engine.',
