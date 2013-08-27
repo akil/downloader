@@ -132,8 +132,8 @@ def get_it(torrent_url, path, cookie):
     cmd = (' '.join(cmd_args) % (tmp_file, path)).split()
     
     subprocess.Popen(cmd,
-                     stdout = subprocess.DEVNULL,
-                     stderr = subprocess.DEVNULL)
+                     stdout = open(os.devnull, "w"),
+                     stderr = open(os.devnull, "w"))
 
     os.remove(tmp_file)
     
