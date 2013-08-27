@@ -124,7 +124,7 @@ def get_it(torrent_url, path, cookie):
                                headers = {'cookie': cookie})
     contents = urllib2.urlopen(request).read()
 
-    tmp_file = tempfile.NamedTemporaryFile().name
+    tmp_file = tempfile.NamedTemporaryFile().name + '.torrent'
     fd = open(tmp_file, "wb")
     fd.write(contents)
     fd.close()
