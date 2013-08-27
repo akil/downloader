@@ -13,7 +13,7 @@ import xml.dom.minidom
 
 import engines
 
-cmd_args      = ['transmission-remote', 'localhost', '-a', '%s', '-c', '/mnt/external/Icomplete', '-w',
+cmd_args      = ['transmission-remote', 'localhost', '-a', '%s', '-c', '/mnt/external/Incomplete', '-w',
                  '%s', '--pex', '--dht']
 pattern_type2 = [
     re.compile(r"[\._ \-][Ss]([0-9]+)[\.\-]?[Ee]([0-9]+)([^\\/]*)"), # s01e02...
@@ -114,7 +114,7 @@ def is_right_file(filename, result_file):
         if f2.find("%02i" % filename.e) == -1: return False
 
     for fname in filter(lambda x: x.isalpha(), re.split("(\W+)", f1)):
-        if f2.find(fname) == -1: 
+        if f2.find(fname) == -1:
             return False
 
     return True
@@ -123,20 +123,20 @@ def get_it(torrent_url, path, cookie):
     request  = urllib2.Request(torrent_url,
                                headers = {'cookie': cookie})
     contents = urllib2.urlopen(request).read()
-    
+
     tmp_file = tempfile.NamedTemporaryFile().name
     fd = open(tmp_file, "wb")
     fd.write(contents)
     fd.close()
-    
+
     cmd = (' '.join(cmd_args) % (tmp_file, path)).split()
-    
+
     subprocess.Popen(cmd,
-                     stdout = open(os.devnull, "w"),
-                     stderr = open(os.devnull, "w"))
+                     stdout = subprocess.PIPE,
+                     stderr = subprocess.PIPE)
 
     os.remove(tmp_file)
-    
+
 
 def download(download_list, engines_list):
     for f in download_list:
@@ -146,7 +146,7 @@ def download(download_list, engines_list):
             if not len(res):
                 print "[%s] No result for %s" % (e.name(), f)
                 continue
-        
+
             torrent, current_seed = None, 0
             for d in filter(lambda r : is_right_file(f, r['filename']), res):
                 print  "[{0}] Seed: {1:3} File: {2}".format(e.name(), d['seed'], d['filename'])
@@ -172,9 +172,9 @@ def main(config_file):
                 nfd = len(os.listdir(f))
             except OSError:
                 continue
-            
+
             if nfd == 0:
-                if d.type == 1: 
+                if d.type == 1:
                     dwl.append(Search(f, os.path.join(d.path, f), d.type))
                 elif d.type == 2:
                     o   = Search(f, os.path.join(d.path, f), d.type)
