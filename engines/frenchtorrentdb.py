@@ -113,11 +113,11 @@ class Frenchtorrentdb(Engine):
         contents = urllib2.urlopen(request).read()
 
         return contents
-        
+
     def _get_results_from_page(self, url_page, parser):
         contents = self._get_page_content(url_page)
         parser.feed(contents)
-
+        parser.close()
         return parser.results
 
     def _append_results(self, appending, results):
@@ -129,23 +129,23 @@ class Frenchtorrentdb(Engine):
                 else:
                     d[k] = v
             appending.append(d)
-        
+
     def _search(self, filename):
         results  = list()
         contents = self._get_page_content(self._url_search % filename)
 
         p = ParserSearch()
         p.feed(contents)
+        p.close()
 
         self._append_results(results, p.results)
 
-        pages_url = list(p.pages_url)        
+        pages_url = list(p.pages_url)
         for page_url in pages_url:
-            items = self._get_results_from_page(self.url() + page_url, p)
+            items = self._get_results_from_page(self.url() + page_url, ParserSearch())
             self._append_results(results, items)
-        p.close()
 
-        return results
+        return results, self._cookie
 
     def name(self):
         return self._name

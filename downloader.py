@@ -3,13 +3,18 @@
 
 import re
 import os
+import urllib2
 import argparse
+import tempfile
 import importlib
-import xml.dom.minidom
+import subprocess
 import collections
+import xml.dom.minidom
 
 import engines
 
+cmd_args      = ['transmission-remote', 'localhost', '-a', '%s', '-c', '/mnt/external/Icomplete', '-w',
+                 '%s', '--pex', '--dht']
 pattern_type2 = [
     re.compile(r"[\._ \-][Ss]([0-9]+)[\.\-]?[Ee]([0-9]+)([^\\/]*)"), # s01e02...
     re.compile(r"[\._ \-]([0-9]+)x([0-9]+)([^\\/]*)"),               # foo.1x09
@@ -36,9 +41,10 @@ class Config(object):
         self._get_data()
 
 class Search(object):
-    def __init__(self, filename, type):
+    def __init__(self, filename, path, type):
         self.name = filename
         self.type = type
+        self.path = path
 
         self.s = None
         self.e = None
@@ -53,7 +59,6 @@ class Search(object):
         return self.__repr__()
 
 
-
 def load_class(full_class_string):
     class_data  = full_class_string.split(".")
     module_path = ".".join(class_data[:-1])
@@ -64,7 +69,7 @@ def load_class(full_class_string):
     return getattr(module, class_str)
 
 
-def get_next_file(directory, stype):
+def get_next_file(directory, path, stype):
     fdlist = os.listdir(directory)
 
     s, e, sprev, eprev = (None, None, 0, 0)
@@ -93,7 +98,7 @@ def get_next_file(directory, stype):
     if not sprev and not eprev:
         return None
 
-    search_file = Search(directory, stype)
+    search_file = Search(directory, path, stype)
     if sprev: search_file.s = sprev
     if eprev: search_file.e = eprev
 
@@ -114,18 +119,45 @@ def is_right_file(filename, result_file):
 
     return True
 
+def get_it(torrent_url, path, cookie):
+    request  = urllib2.Request(torrent_url,
+                               headers = {'cookie': cookie})
+    contents = urllib2.urlopen(request).read()
+    
+    tmp_file = tempfile.NamedTemporaryFile().name
+    fd = open(tmp_file, "wb")
+    fd.write(contents)
+    fd.close()
+    
+    cmd = (' '.join(cmd_args) % (tmp_file, path)).split()
+    
+    subprocess.Popen(cmd,
+                     stdout = subprocess.DEVNULL,
+                     stderr = subprocess.DEVNULL)
+
+    os.remove(tmp_file)
+    
+
 def download(download_list, engines_list):
     for f in download_list:
         for e in engines_list:
             print "\t* searching [ %s ]" % f
-            res = e.get(f)
+            res, cookie = e.get(f)
             if not len(res):
                 print "[%s] No result for %s" % (e.name(), f)
                 continue
-
+        
+            torrent, current_seed = None, 0
             for d in filter(lambda r : is_right_file(f, r['filename']), res):
                 print  "[{0}] Seed: {1:3} File: {2}".format(e.name(), d['seed'], d['filename'])
+                if int(d['seed']) > int(current_seed): current_seed, torrent = d['seed'], d
 
+            if torrent is None:
+                print "[%s] No result for %s" % (e.name(), f)
+                continue
+
+            print "\t-> <{0}> Seed: {1:3} {2}\n".format(e.name(), torrent['seed'], torrent['filename'])
+            get_it(torrent['url'], f.path, cookie)
 
 def main(config_file):
     cfg = Config(config_file)
@@ -143,11 +175,13 @@ def main(config_file):
             
             if nfd == 0:
                 if d.type == 1: 
-                    dwl.append(Search(f, d.type))
+                    dwl.append(Search(f, os.path.join(d.path, f), d.type))
                 elif d.type == 2:
-                    dwl.append(Search("%s %i" % (f, 01), d.type))
+                    o   = Search(f, os.path.join(d.path, f), d.type)
+                    o.e = 1
+                    dwl.append(o)
             elif d.type == 2:
-                dlfile = get_next_file(f, d.type)
+                dlfile = get_next_file(f, os.path.join(d.path, f), d.type)
                 if dlfile is not None:
                     dlfile.e += 1
                     dwl.append(dlfile)
