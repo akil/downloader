@@ -159,6 +159,7 @@ def download(download_list, engines_list):
             print "\t-> <{0}> Seed: {1:3} {2}\n".format(e.name(), torrent['seed'], torrent['filename'])
             get_it(torrent['url'], f.path, cookie)
 
+
 def main(config_file):
     cfg = Config(config_file)
     dwl = list()
@@ -177,8 +178,8 @@ def main(config_file):
                 if d.type == 1:
                     dwl.append(Search(f, os.path.join(d.path, f), d.type))
                 elif d.type == 2:
-                    o   = Search(f, os.path.join(d.path, f), d.type)
-                    o.e = 1
+                    o = Search(f, os.path.join(d.path, f), d.type)
+                    o.s, o.e = (1, 1)
                     dwl.append(o)
             elif d.type == 2:
                 dlfile = get_next_file(f, os.path.join(d.path, f), d.type)
