@@ -26,7 +26,7 @@ pattern_type2 = [
 class Config(object):
     def __init__(self, filename):
         self._file = filename
-        self.dir  = list()
+        self.dir   = list()
 
     def _get_data(self):
         xmldoc = xml.dom.minidom.parse(self._file)
@@ -131,9 +131,10 @@ def get_it(torrent_url, path, cookie):
 
     cmd = (' '.join(cmd_args) % (tmp_file, path)).split()
 
-    subprocess.Popen(cmd,
-                     stdout = subprocess.PIPE,
-                     stderr = subprocess.PIPE)
+    r = subprocess.Popen(cmd,
+                         stdout = subprocess.PIPE,
+                         stderr = subprocess.PIPE)
+    r.wait()    
 
     os.remove(tmp_file)
 
