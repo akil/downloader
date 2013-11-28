@@ -6,27 +6,17 @@ import sgmllib
 import urllib2
 import urllib
 import urlparse
+import PyV8
 
 from engine import Engine
 
-class ParseSecureLogin(sgmllib.SGMLParser):
-    def reset(self):
-        sgmllib.SGMLParser.reset(self)
-        self._secure_login = None
+url_cookie    = 'http://www.frenchtorrentdb.com/?section=LOGIN'
+url_challenge = 'http://www.frenchtorrentdb.com/?section=LOGIN&challenge=1'
+url_search    = 'http://www.frenchtorrentdb.com/?section=TORRENTS&exact=1&name=%s&submit=GO'
+url_login     = 'http://www.frenchtorrentdb.com/?section=LOGIN&ajax=1'
 
-    def start_input(self, attrs):
-        if not len(attrs): return
-        in_secure_tag = False
-        for k, v in attrs:
-            if k == 'name' and v == 'secure_login':
-                in_secure_tag = True
-            elif k == 'value' and in_secure_tag:
-                self._secure_login = v
-                self.setnomoretags()
-                break
+username, password = ('tototiti', 'Mm5/RrrFgOgR23zK')
 
-    def get_secure_flag(self):
-        return self._secure_login
 
 class ParserSearch(sgmllib.SGMLParser):
     regnme = re.compile(r"torrents_name\s{1}")
@@ -74,49 +64,51 @@ class ParserSearch(sgmllib.SGMLParser):
 
 class Frenchtorrentdb(Engine):
     def __init__(self):
-        self._name       = 'frenchtorrentdb'
-        self._username   = 'tototiti'
-        self._password   = '42klm256'
-        self._url_login  = 'http://www.frenchtorrentdb.com/?section=LOGIN'
-        self._url_search = 'http://www.frenchtorrentdb.com/?section=TORRENTS&exact=1&name=%s&submit=GO'
-        self._cookie     = None
+        self._name   = 'frenchtorrentdb'
+        self._cookie = None        
 
-    def _get_secure_flag(self):
-        parser = ParseSecureLogin()
-        page   = urllib2.urlopen(self._url_login)
+    def _set_cookie(self):
+        header, page = self.request(url_cookie)
+        self._cookie = header['Set-Cookie'].split(';')[0]
 
-        self._cookie = page.info()['set-cookie'].split(';', 1)[0]
+    def _get_challenge(self, headers):
+        _, page = self.request(url_challenge, headers)
 
-        parser.feed(page.read())
-        page.close()
-        parser.close()
+        jscode = PyV8.JSContext()
+        jscode.enter()
+        jscode.eval("var sec=%s" % page)
+        r = jscode.eval("sec")
 
-        return parser.get_secure_flag()
+        hash = r.hash
+        size = len(r.challenge)
 
-    def _login(self, secure_flag):
-        params = urllib.urlencode({'username': self._username,
-                                   'password': self._password,
-                                   'secure_login': secure_flag,
-                                   'submit': 'Connection'})
-        req = urllib2.Request(self._url_login, params,
-                              headers = {'cookie': self._cookie})
-        res = urllib2.urlopen(req)
+        r.challenge[size - 1] = "'%s'" % '05f'
+        secure_login_ob = "[%s]" % ','.join(r.challenge)
 
-        cookie = res.info().get('set-cookie', None)
-        if cookie: self._cookie = cookie.split(';', 1)[0]
+        r = jscode.eval(secure_login_ob)
+        
+        return (hash, ''.join(r))
 
-        res.close()
+    def _login(self):
+        self._set_cookie()        
+        headers = {'Cookie'           : self._cookie,
+                   'Accept'           : 'application/json, text/javascript, */*; q=0.01',
+                   'X-Requested-With' : 'XMLHttpRequest'}
 
-    def _get_page_content(self, url):
-        request  = urllib2.Request(url.replace(' ', '.'),
-                                   headers = {'cookie': self._cookie})
-        contents = urllib2.urlopen(request).read()
+        hash, secure_login = self._get_challenge(headers)
+        params = urllib.urlencode({'username'     : username,
+                                   'password'     : password,
+                                   'secure_login' : secure_login,
+                                   'hash'         : hash})
 
-        return contents
+        headers['Content-Length'] = len(params)
+    
+        self.request(url_login, headers = headers, params = params)
 
     def _get_results_from_page(self, url_page, parser):
-        contents = self._get_page_content(url_page)
-        parser.feed(contents)
+        _, page = self.request(url_page, headers = {'Cookie': self._cookie})
+
+        parser.feed(page)
         parser.close()
         return parser.results
 
@@ -131,11 +123,11 @@ class Frenchtorrentdb(Engine):
             appending.append(d)
 
     def _search(self, filename):
-        results  = list()
-        contents = self._get_page_content(self._url_search % filename)
+        results = list()
+        _, page = self.request(url_search % filename, headers = {'Cookie': self._cookie})
 
         p = ParserSearch()
-        p.feed(contents)
+        p.feed(page)
         p.close()
 
         self._append_results(results, p.results)
@@ -151,11 +143,10 @@ class Frenchtorrentdb(Engine):
         return self._name
 
     def url(self):
-        return 'http://' + urlparse.urlparse(self._url_login).netloc
+        return 'http://' + urlparse.urlparse(url_login).netloc
 
     def get(self, filename):
         if not self._cookie:
-            secure_flag = self._get_secure_flag()
-            self._login(secure_flag)
+            self._login()
 
         return self._search(filename)
