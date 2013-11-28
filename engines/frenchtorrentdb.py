@@ -143,7 +143,8 @@ class Frenchtorrentdb(Engine):
         return self._name
 
     def url(self):
-        return 'http://' + urlparse.urlparse(url_login).netloc
+        u = urlparse.urlparse(url_login)
+        return "%s://%s" % (u.scheme, u.netloc)
 
     def get(self, filename):
         if not self._cookie:
