@@ -2,17 +2,21 @@
 # -*- coding: utf-8 -*-
 
 import urllib
+import sgmllib
 import urlparse
 
 from engine import Engine
 
-import os
-os.environ['https_proxy'] = 'https://10.42.42.3:8080'
 
 url_login  = 'https://gks.gs/login'
 url_search = 'https://gks.gs/sphinx/?%s'
 
 username, password = ('timeout', 'o4PbfVnPbIDn8s1r')
+
+class ParserSearch(sgmllib.SGMLParser):
+    def reset(self):
+        sgmllib.SGMLParser.reset(self)
+
 
 class Gks(Engine):
     def __init__(self):

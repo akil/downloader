@@ -1,4 +1,4 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__all__ = ['frenchtorrentdb', 'gks']
+__all__ = ['frenchtorrentdb']
