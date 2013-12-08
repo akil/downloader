@@ -18,7 +18,7 @@ cmd_args      = ['transmission-remote', 'localhost', '-a', '%s', '-c', '/mnt/ext
 pattern_type2 = [
     re.compile(r"[\._ \-][Ss]([0-9]+)[\.\-]?[Ee]([0-9]+)([^\\/]*)"), # s01e02...
     re.compile(r"[\._ \-]([0-9]+)x([0-9]+)([^\\/]*)"),               # foo.1x09
-    re.compile(r"[\._ \-]E?([0-9][0-9][0-9]?)([\._ \-][^\\/]*)"),    # foo.102 ou foo.10 ou foo.E10
+    re.compile(r"[\._ \-][Ee]?([0-9][0-9][0-9]?)([\._ \-][^\\/]*)"),    # foo.102 ou foo.10 ou foo.E10
     re.compile(r"'^(?P<ep>[0-9]{1,3})[^0-9]'"),                      # 01 - foo
     re.compile(r"\[[Ss]([0-9]+)\]_\[[Ee]([0-9]+)([^\\/]*)"),         # foo_[s01]_[e01]
     ]
@@ -41,10 +41,11 @@ class Config(object):
         self._get_data()
 
 class Search(object):
-    def __init__(self, filename, path, type):
-        self.name = filename
-        self.type = type
-        self.path = path
+    def __init__(self, filename, path, type, regex = None):
+        self.name  = filename
+        self.type  = type
+        self.path  = path
+        self.regex = regex
 
         self.s = None
         self.e = None
@@ -79,10 +80,11 @@ def get_next_file(directory, path, stype):
             if not m: continue
 
             ret = m.groups()
-            if len(ret[1]) < 3:
+            if len(ret) == 3:
                 s, e = int(ret[0]), int(ret[1])
             else:
                 s, e = None, int(ret[0])
+
 
             if s is not None:
                 if sprev < s:
@@ -98,7 +100,7 @@ def get_next_file(directory, path, stype):
     if not sprev and not eprev:
         return None
 
-    search_file = Search(directory, path, stype)
+    search_file = Search(directory, path, stype, regex)
     if sprev: search_file.s = sprev
     if eprev: search_file.e = eprev
 
@@ -109,9 +111,18 @@ def is_right_file(filename, result_file):
     f2 = result_file.lower()
 
     if filename.type == 2:
-        if filename.s:
-            if f2.find("%02i" % filename.s) == -1:  return False
-        if f2.find("%02i" % filename.e) == -1: return False
+        if filename.regex:
+            m = filename.regex.search(f2)
+            if not m: return False
+            
+            ret = m.groups()
+            if len(ret) == 3:                
+                s, e = int(ret[0]), int(ret[1])
+                if filename.s == s and filename.e == e: return True
+                return False
+            else:
+                if filename.e == int(ret[0]): return True
+                return False
 
     for fname in filter(lambda x: x.isalpha(), re.split("(\W+)", f1)):
         if f2.find(fname) == -1:
@@ -139,27 +150,39 @@ def get_it(torrent_url, path, cookie):
     os.remove(tmp_file)
 
 
+def _download_file(fileobject, engines_list):
+    for e in engines_list:
+        print "\t* searching [ %s ]" % fileobject
+        res, cookie = e.get(fileobject)
+
+        torrent, current_seed = None, 0
+        for d in filter(lambda r : is_right_file(fileobject, r['filename']), res):
+            print  "[{0}] Seed: {1:3} File: {2}".format(e.name(), d['seed'], d['filename'])
+            if int(d['seed']) > int(current_seed): current_seed, torrent = d['seed'], d
+
+        if torrent is None:
+            print "[%s] No result for %s" % (e.name(), fileobject)
+            continue
+
+        print "\t-> <{0}> Seed: {1:3} {2}\n".format(e.name(), torrent['seed'], torrent['filename'])
+        get_it(torrent['url'], fileobject.path, cookie)
+        return True
+
+    return False
+        
+    
 def download(download_list, engines_list):
     for f in download_list:
-        for e in engines_list:
-            print "\t* searching [ %s ]" % f
-            res, cookie = e.get(f)
-            if not len(res):
-                print "[%s] No result for %s" % (e.name(), f)
-                continue
-
-            torrent, current_seed = None, 0
-            for d in filter(lambda r : is_right_file(f, r['filename']), res):
-                print  "[{0}] Seed: {1:3} File: {2}".format(e.name(), d['seed'], d['filename'])
-                if int(d['seed']) > int(current_seed): current_seed, torrent = d['seed'], d
-
-            if torrent is None:
-                print "[%s] No result for %s" % (e.name(), f)
-                continue
-
-            print "\t-> <{0}> Seed: {1:3} {2}\n".format(e.name(), torrent['seed'], torrent['filename'])
-            get_it(torrent['url'], f.path, cookie)
-
+        r = _download_file(f, engines_list)
+        while r == True and f.type == 2:
+            f.e = f.e + 1
+            r = _download_file(f, engines_list)
+        
+        if r == False and f.type == 2:
+            if f.s is not None:
+                f.s, f.e = f.s + 1, 01
+                r = _download_file(f, engines_list)
+            
 
 def main(config_file):
     cfg = Config(config_file)
