@@ -17,8 +17,8 @@ cmd_args      = ['transmission-remote', 'localhost', '-a', '%s', '-c', '/mnt/ext
                  '%s', '--pex', '--dht']
 pattern_type2 = [
     re.compile(r"[\._ \-][Ss]([0-9]+)[\.\-]?[Ee]([0-9]+)([^\\/]*)"), # s01e02...
+    re.compile(r"[\._ \-][Ee]?([0-9][0-9][0-9]?)([\._ \-][^\\/]*)"), # foo.102 ou foo.10 ou foo.E10
     re.compile(r"[\._ \-]([0-9]+)x([0-9]+)([^\\/]*)"),               # foo.1x09
-    re.compile(r"[\._ \-][Ee]?([0-9][0-9][0-9]?)([\._ \-][^\\/]*)"),    # foo.102 ou foo.10 ou foo.E10
     re.compile(r"'^(?P<ep>[0-9]{1,3})[^0-9]'"),                      # 01 - foo
     re.compile(r"\[[Ss]([0-9]+)\]_\[[Ee]([0-9]+)([^\\/]*)"),         # foo_[s01]_[e01]
     ]
