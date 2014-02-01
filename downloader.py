@@ -208,7 +208,10 @@ def main(config_file):
             elif d.type == 2:
                 dlfile = get_next_file(f, os.path.join(d.path, f), d.type)
                 if dlfile is not None:
-                    dlfile.e += 1
+                    if dlfile.e is None:
+                        dlfile.e = 1
+                    else:
+                        dlfile.e += 1
                     dwl.append(dlfile)
 
     engines_list = []
