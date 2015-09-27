@@ -3,6 +3,7 @@
 
 import re
 import os
+import requests
 import urllib2
 import argparse
 import tempfile
