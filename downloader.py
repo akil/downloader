@@ -152,8 +152,10 @@ def get_it(torrent_url, path, cookie):
 
 
 def _download_file(fileobject, engines_list):
+
+    print "\t* searching [ %s ]" % fileobject
+    
     for e in engines_list:
-        print "\t* searching [ %s ]" % fileobject
 
         try:
             res, cookie = e.get(fileobject)
@@ -161,7 +163,9 @@ def _download_file(fileobject, engines_list):
             print "[*] Engine <%s> unvailable\n" % e.name()
             continue
 
-        if res == None: continue
+        if res == None:
+            print "[%s] Can't log-in %s" % (e.name(), fileobject)
+            continue
         
         torrent, current_seed = None, 0
         for d in filter(lambda r : is_right_file(fileobject, r['filename']), res):
