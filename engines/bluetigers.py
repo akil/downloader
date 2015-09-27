@@ -30,24 +30,13 @@ class Bluetigers(engine.Engine):
             'password'   : password
         }
 
-        r = requests.post(url_login, payload, verify=False)
-        c = r.headers.get('set-cookie').split(',')
+        s = requests.session()
+        r = s.post(url_login, payload)
 
-        uid, chash = None, None
-        for item in c:
-            for h in item.split(';'):
+        c = [ "%s=%s" % (k , v)  for k, v in requests.utils.dict_from_cookiejar(s.cookies).iteritems() ]
 
-                if h.find('=') == -1: continue
-
-                k, v = h.strip().split('=')
-                if k == 'uid':
-                    uid = v
-                elif k == 'pass':
-                    chash = v
-
-        c = 'acopendivids=xzlogin;acgroupswithpersist=nada;uid=%s;pass=%s' % (uid, chash)
-        self._cookie = c
-
+        self._cookie = ';'.join(c)
+    
 
     def _pages(self, tree):
         
