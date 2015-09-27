@@ -164,7 +164,7 @@ def _download_file(fileobject, engines_list):
             continue
 
         if res == None:
-            print "[%s] Can't log-in %s" % (e.name(), fileobject)
+            print "[%s] Can't log-in" % e.name()
             continue
         
         torrent, current_seed = None, 0
