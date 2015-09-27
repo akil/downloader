@@ -182,7 +182,7 @@ def _download_file(fileobject, engines_list):
             print '{0:20}{1}'.format("[%s]" % e.name(), "No result for %s" % fileobject)
             continue
 
-        print "\t-> {0:20} Seed: {1:3} {2}".format("<%s>" % e.name(), torrent['seed'], torrent['filename'])
+        print "\t-> {0:18} Seed: {1:3} {2}".format("<%s>" % e.name(), torrent['seed'], torrent['filename'])
         get_it(torrent['url'], fileobject.path, cookie)
         return True
 
