@@ -14,7 +14,7 @@ import xml.dom.minidom
 
 import engines
 
-cmd_args      = ['transmission-remote', 'localhost', '-a', '%s', '-c', '/mnt/usb/Incomplete', '-w',
+cmd_args      = ['transmission-remote', 'localhost', '-a', '%s', '-c', '/opt/multimedia/incomplete', '-w',
                  '%s', '--pex', '--dht']
 pattern_type2 = [
     re.compile(r"[\._ \-][Ss]([0-9]+)[\.\-]?[Ee]([0-9]+)([^\\/]*)"), # s01e02...
