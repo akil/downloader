@@ -169,11 +169,17 @@ def _download_file(fileobject, engines_list):
         
         torrent, current_seed = None, 0
         for d in filter(lambda r : is_right_file(fileobject, r['filename']), res):
-            print  "[{0}] Seed: {1:3} File: {2}".format(e.name(), d['seed'], d['filename'])
+            print  "{0} {1} {2:3} {3} {4}".format("[%s]" %
+                                                  e.name(),
+                                                  'Seed:',
+                                                  ['seed'],
+                                                  'File:'
+                                                  d['filename'])
+            
             if int(d['seed']) > int(current_seed): current_seed, torrent = d['seed'], d
 
         if torrent is None:
-            print '{0:20}'.format([%s] No result for %s % (e.name(), fileobject))
+            print '{0:20}{1}'.format("[%s]" % e.name(), "No result for %s" % (e.name(), fileobject))
             continue
 
         print "\t-> {0:20} Seed: {1:3} {2}\n".format("<%s>" % e.name(), torrent['seed'], torrent['filename'])
