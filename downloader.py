@@ -157,7 +157,7 @@ def _download_file(fileobject, engines_list):
 
         try:
             res, cookie = e.get(fileobject)
-        except requests.exception.ConnectionError:
+        except requests.exceptions.ConnectionError:
             print "[*] Engine <%s> unvailable" % e.name()
             continue
 
