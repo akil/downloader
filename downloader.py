@@ -160,11 +160,11 @@ def _download_file(fileobject, engines_list):
         try:
             res, cookie = e.get(fileobject)
         except requests.exceptions.ConnectionError:
-            print "[*] Engine <%s> unvailable\n" % e.name()
+            print '{0:20}'.format("[%s] Unvailable\n" % e.name())
             continue
 
         if res == None:
-            print "[%s] Can't log-in" % e.name()
+            print '{0:20}'.format("[%s] Can't log-in" % e.name())
             continue
         
         torrent, current_seed = None, 0
@@ -173,10 +173,10 @@ def _download_file(fileobject, engines_list):
             if int(d['seed']) > int(current_seed): current_seed, torrent = d['seed'], d
 
         if torrent is None:
-            print "[%s] No result for %s" % (e.name(), fileobject)
+            print '{0:20}'.format([%s] No result for %s % (e.name(), fileobject))
             continue
 
-        print "\t-> <{0}> Seed: {1:3} {2}\n".format(e.name(), torrent['seed'], torrent['filename'])
+        print "\t-> {0:20} Seed: {1:3} {2}\n".format("<%s>" % e.name(), torrent['seed'], torrent['filename'])
         get_it(torrent['url'], fileobject.path, cookie)
         return True
 
