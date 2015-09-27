@@ -17,7 +17,7 @@ class Smartorrent(engine.Engine):
 
     def __init__(self):
 
-        self._name   = 'smartorrents'
+        self._name   = 'smartorrent'
         self._cookie = None
 
 
