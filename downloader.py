@@ -132,15 +132,16 @@ def is_right_file(filename, result_file):
     return True
 
 def get_it(torrent_url, path, cookie):
-    request  = urllib2.Request(torrent_url,
-                               headers = {'cookie': cookie})
-    contents = urllib2.urlopen(request).read()
+   r = requests.get(torrent_url, headers = {'Cookie': cookie}, stream=True)
+
+    r.close()    
 
     tmp_file = tempfile.NamedTemporaryFile().name + '.torrent'
-    fd = open(tmp_file, "wb")
-    fd.write(contents)
-    fd.close()
 
+    with open(tmp_file, 'wb') as f:
+        for chunk in r.iter_content(1024):
+            f.write(chunk)
+            
     cmd = (' '.join(cmd_args) % (tmp_file, path)).split()
 
     r = subprocess.Popen(cmd,
