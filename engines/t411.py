@@ -57,7 +57,7 @@ class T411(Engine):
             seed     = s[0].text
 
             results.append({
-                'filename' : filename,
+                'filename' : filename.encode('utf8'),
                 'url'      : url,
                 'seed'     : seed
             })
