@@ -153,7 +153,12 @@ def get_it(torrent_url, path, cookie):
 def _download_file(fileobject, engines_list):
     for e in engines_list:
         print "\t* searching [ %s ]" % fileobject
-        res, cookie = e.get(fileobject)
+
+        try:
+            res, cookie = e.get(fileobject)
+        except requests.exception.ConnectionError:
+            print "[*] Engine <%s> unvailable" % e.name()
+            continue
 
         torrent, current_seed = None, 0
         for d in filter(lambda r : is_right_file(fileobject, r['filename']), res):
