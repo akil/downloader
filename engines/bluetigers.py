@@ -122,6 +122,6 @@ class Bluetigers(engine.Engine):
         if self._cookie == None:
             self._login()
 
-        self._search(filename), self._cookie
+        return self._search(filename), self._cookie
 
 

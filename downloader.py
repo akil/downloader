@@ -165,7 +165,7 @@ def _download_file(fileobject, engines_list):
             continue
 
         print "\t-> <{0}> Seed: {1:3} {2}\n".format(e.name(), torrent['seed'], torrent['filename'])
-#        get_it(torrent['url'], fileobject.path, cookie)
+        get_it(torrent['url'], fileobject.path, cookie)
         return True
 
     return False
