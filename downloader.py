@@ -169,6 +169,7 @@ def _download_file(fileobject, engines_list):
             print '{0:20}{1}'.format("[%s]" % e.name(), "Can't log-in")
             continue
 
+        found = False
         for d in filter(lambda r : is_right_file(fileobject, r['filename']), res):
             print  "{0:20} {1} {2:3} {3} {4}".format("[%s]" %
                                                      e.name(),
@@ -180,10 +181,14 @@ def _download_file(fileobject, engines_list):
             if int(d['seed']) > int(current_seed):
                 current_seed, torrent, engine_name = d['seed'], d, e.name()
 
+            found = True
+            
         if len(res) == 0:
             print '{0:20}{1}'.format("[%s]" % e.name(), "No result")
 
-
+        if len(res) and found == False:
+            print '{0:20}{1}'.format("[%s]" % e.name(), "No corresponding results")
+            
     if torrent is not None:
         print "\t-> {0:18} Seed: {1:3} {2}".format("<%s>" % engine_name, torrent['seed'], torrent['filename'])
         get_it(torrent['url'], fileobject.path, cookie)
