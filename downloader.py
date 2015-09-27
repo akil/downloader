@@ -171,12 +171,12 @@ def _download_file(fileobject, engines_list):
 
         found = False
         for d in filter(lambda r : is_right_file(fileobject, r['filename']), res):
-            print  "{0:20} {1} {2:3} {3} {4}".format("[%s]" %
-                                                     e.name(),
-                                                     'Seed:',
-                                                     d['seed'],
-                                                     'File:',
-                                                     d['filename'])
+            print '{0:20} {1} {2:3} {3} {4}'.format("[%s]" %
+                                                    e.name(),
+                                                    'Seed:',
+                                                    d['seed'],
+                                                    'File:',
+                                                    d['filename'])
 
             if int(d['seed']) > int(current_seed):
                 current_seed, torrent, engine_name = d['seed'], d, e.name()
