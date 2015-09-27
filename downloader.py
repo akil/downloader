@@ -173,7 +173,7 @@ def _download_file(fileobject, engines_list):
                                                   e.name(),
                                                   'Seed:',
                                                   ['seed'],
-                                                  'File:'
+                                                  'File:',
                                                   d['filename'])
             
             if int(d['seed']) > int(current_seed): current_seed, torrent = d['seed'], d
