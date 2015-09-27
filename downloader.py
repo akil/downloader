@@ -154,7 +154,8 @@ def get_it(torrent_url, path, cookie):
 def _download_file(fileobject, engines_list):
 
     print "\t* searching [ %s ]" % fileobject
-    
+
+    torrent, current_seed, engine_name = None, 0, None
     for e in engines_list:
 
         try:
@@ -167,7 +168,6 @@ def _download_file(fileobject, engines_list):
             print '{0:20}{1}'.format("[%s]" % e.name(), "Can't log-in")
             continue
         
-        torrent, current_seed = None, 0
         for d in filter(lambda r : is_right_file(fileobject, r['filename']), res):
             print  "{0} {1} {2:3} {3} {4}".format("[%s]" %
                                                   e.name(),
@@ -176,19 +176,23 @@ def _download_file(fileobject, engines_list):
                                                   'File:',
                                                   d['filename'])
             
-            if int(d['seed']) > int(current_seed): current_seed, torrent = d['seed'], d
+            if int(d['seed']) > int(current_seed):
+                current_seed, torrent, engine_name = d['seed'], d, e.name()
 
         if torrent is None:
             print '{0:20}{1}'.format("[%s]" % e.name(), "No result for %s" % fileobject)
-            continue
 
-        print "\t-> {0:18} Seed: {1:3} {2}".format("<%s>" % e.name(), torrent['seed'], torrent['filename'])
+
+    if torrent is not None:
+        print "\t-> {0:18} Seed: {1:3} {2}".format("<%s>" % engine_name, torrent['seed'], torrent['filename'])
         get_it(torrent['url'], fileobject.path, cookie)
+
+        print ""
+        
         return True
 
-    print ""
-    
     return False
+    
         
     
 def download(download_list, engines_list):
