@@ -115,9 +115,9 @@ def is_right_file(filename, result_file):
         if filename.regex:
             m = filename.regex.search(f2)
             if not m: return False
-            
+
             ret = m.groups()
-            if len(ret) == 3:                
+            if len(ret) == 3:
                 s, e = int(ret[0]), int(ret[1])
                 if filename.s == s and filename.e == e: return True
                 return False
@@ -132,22 +132,22 @@ def is_right_file(filename, result_file):
     return True
 
 def get_it(torrent_url, path, cookie):
-   r = requests.get(torrent_url, headers = {'Cookie': cookie}, stream=True)
+    r = requests.get(torrent_url, headers = {'Cookie': cookie}, stream=True)
 
-   r.close()    
+    r.close()
 
-   tmp_file = tempfile.NamedTemporaryFile().name + '.torrent'
+    tmp_file = tempfile.NamedTemporaryFile().name + '.torrent'
 
-   with open(tmp_file, 'wb') as f:
-       for chunk in r.iter_content(1024):
-           f.write(chunk)
-            
+    with open(tmp_file, 'wb') as f:
+        for chunk in r.iter_content(1024):
+            f.write(chunk)
+
     cmd = (' '.join(cmd_args) % (tmp_file, path)).split()
 
     r = subprocess.Popen(cmd,
                          stdout = subprocess.PIPE,
                          stderr = subprocess.PIPE)
-    r.wait()    
+    r.wait()
 
     os.remove(tmp_file)
 
@@ -176,7 +176,7 @@ def _download_file(fileobject, engines_list):
                                                      d['seed'],
                                                      'File:',
                                                      d['filename'])
-            
+
             if int(d['seed']) > int(current_seed):
                 current_seed, torrent, engine_name = d['seed'], d, e.name()
 
@@ -189,27 +189,27 @@ def _download_file(fileobject, engines_list):
         get_it(torrent['url'], fileobject.path, cookie)
 
         print ""
-        
+
         return True
 
     print ""
-        
+
     return False
-    
-        
-    
+
+
+
 def download(download_list, engines_list):
     for f in download_list:
         r = _download_file(f, engines_list)
         while r == True and f.type == 2:
             f.e = f.e + 1
             r = _download_file(f, engines_list)
-        
+
         if r == False and f.type == 2:
             if f.s is not None:
                 f.s, f.e = f.s + 1, 01
                 r = _download_file(f, engines_list)
-            
+
 
 def main(config_file):
     cfg = Config(config_file)
