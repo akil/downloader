@@ -13,7 +13,7 @@ import xml.dom.minidom
 
 import engines
 
-cmd_args      = ['transmission-remote', 'localhost', '-a', '%s', '-c', '/mnt/external/Incomplete', '-w',
+cmd_args      = ['transmission-remote', 'localhost', '-a', '%s', '-c', '/mnt/usb/Incomplete', '-w',
                  '%s', '--pex', '--dht']
 pattern_type2 = [
     re.compile(r"[\._ \-][Ss]([0-9]+)[\.\-]?[Ee]([0-9]+)([^\\/]*)"), # s01e02...
@@ -165,7 +165,7 @@ def _download_file(fileobject, engines_list):
             continue
 
         print "\t-> <{0}> Seed: {1:3} {2}\n".format(e.name(), torrent['seed'], torrent['filename'])
-        get_it(torrent['url'], fileobject.path, cookie)
+#        get_it(torrent['url'], fileobject.path, cookie)
         return True
 
     return False
@@ -207,6 +207,7 @@ def main(config_file):
                     dwl.append(o)
             elif d.type == 2:
                 dlfile = get_next_file(f, os.path.join(d.path, f), d.type)
+
                 if dlfile is not None:
                     if dlfile.e is None:
                         dlfile.e = 1
@@ -214,10 +215,12 @@ def main(config_file):
                         dlfile.e += 1
                     dwl.append(dlfile)
 
+
     engines_list = []
     for e in engines.__all__:
         cl = load_class("%s.%s.%s" % ('engines', e, e.capitalize()))
         engines_list.append(cl())
+
 
     download(dwl, engines_list)
 

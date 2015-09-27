@@ -15,7 +15,8 @@ url_challenge = 'http://www.frenchtorrentdb.com/?section=LOGIN&challenge=1'
 url_search    = 'http://www.frenchtorrentdb.com/?section=TORRENTS&exact=1&name=%s&submit=GO'
 url_login     = 'http://www.frenchtorrentdb.com/?section=LOGIN&ajax=1'
 
-username, password = ('tototiti', 'Mm5/RrrFgOgR23zK')
+#username, password = ('tototiti', 'Mm5/RrrFgOgR23zK')
+username, password = ('tototiti', '42klm256')
 
 
 class ParserSearch(sgmllib.SGMLParser):
@@ -122,6 +123,7 @@ class Frenchtorrentdb(Engine):
                     d[k] = v
             appending.append(d)
 
+            
     def _search(self, filename):
         results = list()
         _, page = self.request(url_search % filename, headers = {'Cookie': self._cookie})
