@@ -158,7 +158,7 @@ def _download_file(fileobject, engines_list):
         try:
             res, cookie = e.get(fileobject)
         except requests.exceptions.ConnectionError:
-            print "[*] Engine <%s> unvailable" % e.name()
+            print "[*] Engine <%s> unvailable\n" % e.name()
             continue
 
         torrent, current_seed = None, 0
