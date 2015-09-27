@@ -93,7 +93,9 @@ class Bluetigers(engine.Engine):
         pages = self._pages(tree)
 
         torrents = list()
-        torrents.append(self._get_torrents(tree))
+        res      = self._get_torrents(tree)
+
+        if len(res): torrents.append(res)
                         
         for page_url in pages:
 
@@ -101,7 +103,9 @@ class Bluetigers(engine.Engine):
             p.close()
             
             tree = etree.HTML(p.text)
-            torrents.append(self._get_torrents(tree))
+            res  = self._get_torrents(tree)
+            
+            if len(res) : torrents.append(res)
 
         return torrents
 
