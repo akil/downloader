@@ -30,7 +30,7 @@ class Bluetigers(engine.Engine):
             'password'   : password
         }
 
-        r = requests.post(url_login, payload)
+        r = requests.post(url_login, payload, verify=False)
         c = r.headers.get('set-cookie').split(',')
 
         uid, chash = None, None
@@ -86,7 +86,7 @@ class Bluetigers(engine.Engine):
     
     def _search(self, filename):
 
-        p = requests.get(url_search % filename, headers = {'Cookie' : self._cookie})
+        p = requests.get(url_search % filename, headers = {'Cookie' : self._cookie}, verify=False)
         p.close()
         
         tree  = etree.HTML(p.text)
@@ -97,7 +97,7 @@ class Bluetigers(engine.Engine):
                         
         for page_url in pages:
 
-            p = requests.get(page_url, headers = {'Cookie' : self._cookie})
+            p = requests.get(page_url, headers = {'Cookie' : self._cookie}, verify=False)
             p.close()
             
             tree = etree.HTML(p.text)
