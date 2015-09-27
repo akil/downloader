@@ -179,7 +179,7 @@ def _download_file(fileobject, engines_list):
             if int(d['seed']) > int(current_seed):
                 current_seed, torrent, engine_name = d['seed'], d, e.name()
 
-        if torrent is None:
+        if len(res) == 0:
             print '{0:20}{1}'.format("[%s]" % e.name(), "No result for %s" % fileobject)
 
 
@@ -191,6 +191,8 @@ def _download_file(fileobject, engines_list):
         
         return True
 
+    print ""
+        
     return False
     
         
