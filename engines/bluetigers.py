@@ -13,6 +13,8 @@ url_download = 'https://www.bluetigers.ca/download.php?id=%s'
 
 username, password = ('timeout', 'ebC1TtTgs8HwExl3')
 
+passkey='a4fc87b69bbfa311990c813d54d07264'
+
 
 class Bluetigers(engine.Engine):
 
@@ -35,7 +37,19 @@ class Bluetigers(engine.Engine):
 
         c = [ "%s=%s" % (k , v)  for k, v in requests.utils.dict_from_cookiejar(s.cookies).iteritems() ]
 
-        self._cookie = ';'.join(c)
+        cleanpass = list()
+        
+        for h in c:
+            item = h
+            if item.split('=')[0] == 'pass':
+                t = item.split('=')
+                t[1] = passkey
+
+                item = '='.join(t)
+                
+            cleanpass.append(item)
+            
+        self._cookie = ';'.join(cleanpass)
     
 
     def _pages(self, tree):
