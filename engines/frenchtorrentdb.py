@@ -66,10 +66,13 @@ class ParserSearch(sgmllib.SGMLParser):
 class Frenchtorrentdb(Engine):
     def __init__(self):
         self._name   = 'frenchtorrentdb'
-        self._cookie = None        
+        self._cookie = None
 
     def _set_cookie(self):
         header, page = self.request(url_cookie)
+
+        if header.get('Set-Cookie', None) == None: return None
+
         self._cookie = header['Set-Cookie'].split(';')[0]
 
     def _get_challenge(self, headers):
@@ -87,11 +90,13 @@ class Frenchtorrentdb(Engine):
         secure_login_ob = "[%s]" % ','.join(r.challenge)
 
         r = jscode.eval(secure_login_ob)
-        
+
         return (hash, ''.join(r))
 
     def _login(self):
-        self._set_cookie()        
+        ret = self._set_cookie()
+        if ret == None: return False
+        
         headers = {'Cookie'           : self._cookie,
                    'Accept'           : 'application/json, text/javascript, */*; q=0.01',
                    'X-Requested-With' : 'XMLHttpRequest'}
@@ -103,7 +108,7 @@ class Frenchtorrentdb(Engine):
                                    'hash'         : hash})
 
         headers['Content-Length'] = len(params)
-    
+
         self.request(url_login, headers = headers, params = params)
 
     def _get_results_from_page(self, url_page, parser):
@@ -123,7 +128,7 @@ class Frenchtorrentdb(Engine):
                     d[k] = v
             appending.append(d)
 
-            
+
     def _search(self, filename):
         results = list()
         _, page = self.request(url_search % filename, headers = {'Cookie': self._cookie})
@@ -150,6 +155,6 @@ class Frenchtorrentdb(Engine):
 
     def get(self, filename):
         if not self._cookie:
-            self._login()
+            if not self._login(): return None, None
 
         return self._search(filename)

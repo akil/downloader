@@ -161,6 +161,8 @@ def _download_file(fileobject, engines_list):
             print "[*] Engine <%s> unvailable\n" % e.name()
             continue
 
+        if res == None: continue
+        
         torrent, current_seed = None, 0
         for d in filter(lambda r : is_right_file(fileobject, r['filename']), res):
             print  "[{0}] Seed: {1:3} File: {2}".format(e.name(), d['seed'], d['filename'])
