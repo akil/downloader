@@ -180,7 +180,7 @@ def _download_file(fileobject, engines_list):
                 current_seed, torrent, engine_name = d['seed'], d, e.name()
 
         if len(res) == 0:
-            print '{0:20}{1}'.format("[%s]" % e.name(), "No result for %s" % fileobject)
+            print '{0:20}{1}'.format("[%s]" % e.name(), "No result")
 
 
     if torrent is not None:
