@@ -51,7 +51,7 @@ class Smartorrent(engine.Engine):
             seed = item.xpath('p/span[@class="pull-right"]/span[@class="label label-success"]')
 
             results.append({
-                'filename' : name,
+                'filename' : name[0].text,
                 'url'      : link.replace('/torrents/', '/download/'),
                 'seed'     : seed
             })
