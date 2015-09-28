@@ -53,7 +53,7 @@ class Smartorrent(engine.Engine):
             results.append({
                 'filename' : name[0].text,
                 'url'      : link.replace('/torrents/', '/download/'),
-                'seed'     : seed
+                'seed'     : seed[0].text
             })
             
         return results
