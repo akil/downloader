@@ -24,19 +24,6 @@ pattern_type2 = [
     re.compile(r"\[[Ss]([0-9]+)\]_\[[Ee]([0-9]+)([^\\/]*)"),         # foo_[s01]_[e01]
     ]
 
-import httplib
-
-def patch_http_response_read(func):
-        def inner(*args):
-            try:
-                return func(*args)
-            except httplib.IncompleteRead, e:
-                return e.partial
-            
-            return inner
-
-httplib.HTTPResponse.read = patch_http_response_read(httplib.HTTPResponse.read)
-
                         
 class Config(object):
     def __init__(self, filename):
