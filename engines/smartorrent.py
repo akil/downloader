@@ -17,8 +17,8 @@ class Smartorrent(engine.Engine):
 
     def __init__(self):
 
-        self._name   = 'smartorrent'
-        self._cookie = None
+        self._name    = 'smartorrent'
+        self._session = None
 
 
     def _login(self):
@@ -28,18 +28,14 @@ class Smartorrent(engine.Engine):
             'password' : password
         }
 
-        r = requests.post(url_login, payload)
+        s = requests.Session()
+        s.post(url_login, payload)
 
-        self._cookie = r.headers['set-cookie']        
-
-        r.close()
-
+        self._session = s
         
     def _search(self, filename):
 
-        r = requests.post(url_search,
-                          headers = {'Cookie' : self._cookie},
-                          data = {'keywords' : filename})
+        r = self._session.post(url_search, data = {'keywords' : filename})
         r.close()
 
         results = list()
@@ -71,7 +67,7 @@ class Smartorrent(engine.Engine):
     
     def get(self, filename):
 
-        if self._cookie == None:
+        if self._session == None:
             self._login()
 
-        return self._search(filename), self._cookie
+        return self._search(filename), self._session

@@ -132,15 +132,14 @@ def is_right_file(filename, result_file):
 
     return True
 
-def get_it(torrent_url, path, cookie):
+def get_it(torrent_url, path, session):
     
-    r        = requests.get(torrent_url, headers = {'Cookie': cookie}, stream=True)
+    r        = session.get(torrent_url, stream=True)
     tmp_file = tempfile.NamedTemporaryFile().name + '.torrent'
 
     with open(tmp_file, 'wb') as f:
         for chunk in r.iter_content(1024):
             f.write(chunk)
-
     r.close()
     
     cmd = (' '.join(cmd_args) % (tmp_file, path)).split()
@@ -161,7 +160,7 @@ def _download_file(fileobject, engines_list):
     for e in engines_list:
 
         try:
-            res, cookie = e.get(fileobject)
+            res, session = e.get(fileobject)
         except requests.exceptions.ConnectionError:
             print '{0:20}{1}'.format("[%s]" % e.name(), "Unvailable")
             continue
@@ -192,7 +191,7 @@ def _download_file(fileobject, engines_list):
             
     if torrent is not None:
         print "\t-> {0:18} Seed: {1:3} {2}".format("<%s>" % engine_name, torrent['seed'], torrent['filename'])
-        get_it(torrent['url'], fileobject.path, cookie)
+        get_it(torrent['url'], fileobject.path, session)
 
         print ""
 

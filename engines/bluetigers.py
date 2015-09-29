@@ -20,8 +20,8 @@ class Bluetigers(engine.Engine):
 
     def __init__(self):
 
-        self._name   = 'bluetigers'
-        self._cookie = None
+        self._name    = 'bluetigers'
+        self._session = None
 
 
     def _login(self):
@@ -32,28 +32,19 @@ class Bluetigers(engine.Engine):
             'password'   : password
         }
 
-        s = requests.session()
-        r = s.post(url_login, payload)
+        s = requests.Session()
+        s.headers.update({
+            'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64; rv:23.0) Gecko/20100101 Firefox/23.0',
+            'Accept'     : 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+        })
+      
+        s.post(url_login, payload, verify=False)
 
-        c = [ "%s=%s" % (k , v)  for k, v in requests.utils.dict_from_cookiejar(s.cookies).iteritems() ]
+        self._session = s
 
-        cleanpass = list()
-        
-        for h in c:
-            item = h
-            if item.split('=')[0] == 'pass':
-                t = item.split('=')
-                t[1] = passkey
-
-                item = '='.join(t)
-                
-            cleanpass.append(item)
-            
-        self._cookie = ';'.join(cleanpass)
-    
 
     def _pages(self, tree):
-        
+
         pages = list()
         for link in tree.xpath('//a'):
             h = link.get('href')
@@ -86,12 +77,11 @@ class Bluetigers(engine.Engine):
 
         return results
 
-    
+
     def _search(self, filename):
 
-        p = requests.get(url_search % filename, headers = {'Cookie' : self._cookie}, verify=False)
-        p.close()
-        
+        p = self._session.get(url_search % filename, verify=False)
+
         tree  = etree.HTML(p.text)
         pages = self._pages(tree)
 
@@ -99,20 +89,19 @@ class Bluetigers(engine.Engine):
         res      = self._get_torrents(tree)
 
         if len(res): torrents.extend(res)
-                        
+
         for page_url in pages:
 
-            p = requests.get(page_url, headers = {'Cookie' : self._cookie}, verify=False)
-            p.close()
-            
+            p = self._session.get(page_url, verify=False)
+
             tree = etree.HTML(p.text)
             res  = self._get_torrents(tree)
-            
+
             if len(res) : torrents.extend(res)
 
         return torrents
 
-    
+
     def name(self):
 
         return self._name
@@ -126,9 +115,7 @@ class Bluetigers(engine.Engine):
 
     def get(self, filename):
 
-        if self._cookie == None:
+        if self._session == None:
             self._login()
 
-        return self._search(filename), self._cookie
-
-
+        return self._search(filename), self._session

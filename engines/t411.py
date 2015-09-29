@@ -16,8 +16,8 @@ username, password = ('timeout', 'Mm5/RrrFgOgR23zK')
 class T411(Engine):
     def __init__(self):
 
-        self._name   = 't411'
-        self._cookie = None
+        self._name    = 't411'
+        self._session = None
 
 
     def _login(self):
@@ -31,17 +31,12 @@ class T411(Engine):
         s = requests.session()
         r = s.post(url_login, payload)
 
-        c = [ "%s=%s" % (k , v)  for k, v in requests.utils.dict_from_cookiejar(s.cookies).iteritems() ]
-
-        self._cookie = ';'.join(c)
-
-        r.close()
+        self._session = s
 
         
     def _search(self, filename):
 
-        r = requests.get(url_search % filename, headers = {'Cookie': self._cookie})
-        r.close()
+        r = self._session.get(url_search % filename)
 
         results = list()
         
@@ -74,7 +69,7 @@ class T411(Engine):
         return url_root
 
     def get(self, filename):
-        if self._cookie is None:
+        if self._session is None:
             self._login()
 
-        return self._search(filename), self._cookie
+        return self._search(filename), self._session
