@@ -159,6 +159,8 @@ def _download_file(fileobject, engines_list):
     torrent, current_seed, engine_name = None, 0, None
     for e in engines_list:
 
+        res, session = None, None
+        
         try:
             res, session = e.get(fileobject)
         except requests.exceptions.ConnectionError:
@@ -179,7 +181,7 @@ def _download_file(fileobject, engines_list):
                                                     d['filename'])
 
             if int(d['seed']) > int(current_seed):
-                current_seed, torrent, engine_name = d['seed'], d, e.name()
+                current_seed, torrent, engine_name, engine_session = d['seed'], d, e.name(), session
 
             found = True
             
@@ -191,7 +193,7 @@ def _download_file(fileobject, engines_list):
             
     if torrent is not None:
         print "\t-> {0:18} Seed: {1:3} {2}".format("<%s>" % engine_name, torrent['seed'], torrent['filename'])
-        get_it(torrent['url'], fileobject.path, session)
+        get_it(torrent['url'], fileobject.path, engine_session)
 
         print ""
 
