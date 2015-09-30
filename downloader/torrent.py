@@ -254,7 +254,7 @@ def main(config_file):
 
 
     engines_list = []
-    for e in engines.__all__:
+    for e in downloader.engines.__all__:
 
         module     = __import__('downloader.engines')
         engine     = getattr(module, e)
