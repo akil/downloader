@@ -11,7 +11,7 @@ import subprocess
 import collections
 import xml.dom.minidom
 
-import engines
+import downloader.engines
 
 from __meta__ import __description__
 from __meta__ import __version__
@@ -255,8 +255,12 @@ def main(config_file):
 
     engines_list = []
     for e in engines.__all__:
-        cl = load_class("%s.%s.%s" % ('engines', e, e.capitalize()))
-        engines_list.append(cl())
+
+        module     = __import__('downloader.engines')
+        engine     = getattr(module, e)
+        engine_cls = getattr(engine, e.capitalize())
+
+        engines_list.append( engine_cls() )
 
 
     download(dwl, engines_list)
