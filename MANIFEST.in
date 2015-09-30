@@ -1,0 +1,4 @@
+include README CHANGELOG TODO
+graft bin
+graft config
+graft docs
