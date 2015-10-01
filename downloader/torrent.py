@@ -57,8 +57,13 @@ class Search(object):
 
     def __repr__(self):
         s = ' '.join(filter(lambda x: x.isalnum(), re.split("(\W+)", self.name.lower())))
-        if self.s is not None: s += " %02i" % self.s
-        if self.e is not None: s += " %02i" % self.e
+        if self.s is not None and self.e is not None:
+            s += " S%02iE%02i" % (self.s, self.e)
+        elif self.s is not None:
+            s += " %02i" % self.s
+        elif self.e is not None:
+            s += " %02i" % self.e
+            
         return s.replace(' ', '+')
 
     def __str__(self):
