@@ -27,7 +27,7 @@ pattern_type2 = [
     re.compile(r"\[[Ss]([0-9]+)\]_\[[Ee]([0-9]+)([^\\/]*)"),         # foo_[s01]_[e01]
     ]
 
-                        
+
 class Config(object):
     def __init__(self, filename):
         self._file = filename
@@ -63,7 +63,7 @@ class Search(object):
             s += " %02i" % self.s
         elif self.e is not None:
             s += " %02i" % self.e
-            
+
         return s.replace(' ', '+')
 
     def __str__(self):
@@ -141,7 +141,7 @@ def is_right_file(filename, result_file):
     return True
 
 def get_it(torrent_url, path, session):
-    
+
     r        = session.get(torrent_url, stream=True)
     tmp_file = tempfile.NamedTemporaryFile().name + '.torrent'
 
@@ -149,7 +149,7 @@ def get_it(torrent_url, path, session):
         for chunk in r.iter_content(1024):
             f.write(chunk)
     r.close()
-    
+
     cmd = (' '.join(cmd_args) % (tmp_file, path)).split()
 
     r = subprocess.Popen(cmd,
@@ -168,7 +168,7 @@ def _download_file(fileobject, engines_list):
     for e in engines_list:
 
         res, session = None, None
-        
+
         try:
             res, session = e.get(fileobject)
         except requests.exceptions.ConnectionError:
@@ -192,13 +192,13 @@ def _download_file(fileobject, engines_list):
                 current_seed, torrent, engine_name, engine_session = d['seed'], d, e.name(), session
 
             found = True
-            
+
         if len(res) == 0:
             print '{0:20}{1}'.format("[%s]" % e.name(), "No result")
 
         if len(res) and found == False:
             print '{0:20}{1}'.format("[%s]" % e.name(), "No corresponding results")
-            
+
     if torrent is not None:
         print "\t-> {0:18} Seed: {1:3} {2}".format("<%s>" % engine_name, torrent['seed'], torrent['filename'])
         get_it(torrent['url'], fileobject.path, engine_session)
@@ -226,7 +226,7 @@ def download(download_list, engines_list):
                 r = _download_file(f, engines_list)
 
 
-def main(config_file):
+def main(config_file, exclude):
     cfg = Config(config_file)
     dwl = list()
 
@@ -259,7 +259,7 @@ def main(config_file):
 
 
     engines_list = []
-    for e in downloader.engines.__all__:
+    for e in filter(lambda e: e not in exclude, downloader.engines.__all__):
 
         module     = __import__('downloader.engines')
         engine     = getattr(module, e)
@@ -270,19 +270,24 @@ def main(config_file):
 
     download(dwl, engines_list)
 
-    
+
 def run():
     parser = argparse.ArgumentParser(description     = __description__,
                                      version         = __version__,
                                      formatter_class = argparse.ArgumentDefaultsHelpFormatter)
 
-    args = [
-        [('-c', '--config'),
-         {'type': str, 'default': 'downloader.cfg', 'help': 'configuration file'}]
-        ]
-    for name, arg in args:
-        parser.add_argument(*name, **arg)
+    parser.add_argument('config',
+                        type    = argparse.FileType('r'),
+                        nargs   = 1,
+                        action  = 'store',
+                        help    = 'configuration file')
+    parser.add_argument('--exclude',
+                        action  = 'store',
+                        dest    = 'engine',
+                        type    = str,
+                        help    = 'exclude engine from search (--exclude=engine1,engine2)')
+
 
     opt = parser.parse_args()
-
-    main(opt.config)
+    
+    main(opt.config, opt.engine.split(','))
