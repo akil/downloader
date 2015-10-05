@@ -29,7 +29,7 @@ pattern_type2 = [
 
 
 class Config(object):
-    def __init__(self, filename):
+    def __init__(self, filename):       
         self._file = filename
         self.dir   = list()
 
@@ -259,7 +259,7 @@ def main(config_file, exclude):
 
 
     engines_list = []
-    for e in filter(lambda e: e not in exclude, downloader.engines.__all__):
+    for e in filter(lambda x: x not in exclude, downloader.engines.__all__):
 
         module     = __import__('downloader.engines')
         engine     = getattr(module, e)
@@ -277,8 +277,6 @@ def run():
                                      formatter_class = argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('config',
-                        type    = argparse.FileType('r'),
-                        nargs   = 1,
                         action  = 'store',
                         help    = 'configuration file')
     parser.add_argument('--exclude',
