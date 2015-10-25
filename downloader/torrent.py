@@ -83,7 +83,7 @@ def load_class(full_class_string):
 def get_next_file(directory, path, stype):
     fdlist = os.listdir(directory)
 
-    s, e, sprev, eprev = (None, None, 0, 0)
+    s, e, sprev, eprev, reg = (None, None, 0, 0, None)
     for filename in fdlist:
         for regex in pattern_type2:
             m = regex.search(filename)
@@ -105,12 +105,14 @@ def get_next_file(directory, path, stype):
             elif eprev < e:
                 eprev = e
 
+            reg = regex
+            
             break
 
     if not sprev and not eprev:
         return None
 
-    search_file = Search(directory, path, stype, regex)
+    search_file = Search(directory, path, stype, reg)
     if sprev: search_file.s = sprev
     if eprev: search_file.e = eprev
 
@@ -119,7 +121,7 @@ def get_next_file(directory, path, stype):
 def is_right_file(filename, result_file):
     f1 = filename.name.lower()
     f2 = result_file.lower()
-
+    
     if filename.type == 2:
         if filename.regex:
             m = filename.regex.search(f2)
