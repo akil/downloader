@@ -29,7 +29,7 @@ pattern_type2 = [
 
 
 class Config(object):
-    def __init__(self, filename):       
+    def __init__(self, filename):
         self._file = filename
         self.dir   = list()
 
@@ -106,7 +106,7 @@ def get_next_file(directory, path, stype):
                 eprev = e
 
             reg = regex
-            
+
             break
 
     if not sprev and not eprev:
@@ -121,15 +121,23 @@ def get_next_file(directory, path, stype):
 def is_right_file(filename, result_file):
     f1 = filename.name.lower()
     f2 = result_file.lower()
-    
+
     if filename.type == 2:
         if filename.regex:
             m = filename.regex.search(f2)
             if not m: return False
 
+            retlst = f2.split('.')
+            if len(retlst) <= 1:
+                retlst = f2.split(' ')
+            
+            for f in f1.split('.'):
+                if f not in retlst: return False
+            
             ret = m.groups()
             if len(ret) == 3:
                 s, e = int(ret[0]), int(ret[1])
+
                 if filename.s == s and filename.e == e: return True
                 return False
             else:
@@ -142,7 +150,13 @@ def is_right_file(filename, result_file):
 
     return True
 
-def get_it(torrent_url, path, session):
+def get_it(torrent_url, prelink, path, session):
+
+    if prelink is not None:
+        if prelink.get('method') == 'post':
+            session.post(prelink.get('url'), prelink.get('data'))
+        else:
+            session.get(prelink.get('url'))
 
     r        = session.get(torrent_url, stream=True)
     tmp_file = tempfile.NamedTemporaryFile().name + '.torrent'
@@ -203,7 +217,7 @@ def _download_file(fileobject, engines_list):
 
     if torrent is not None:
         print "\t-> {0:18} Seed: {1:3} {2}".format("<%s>" % engine_name, torrent['seed'], torrent['filename'])
-        get_it(torrent['url'], fileobject.path, engine_session)
+        get_it(torrent['url'], torrent.get('prelink', None), fileobject.path, engine_session)
 
         print ""
 
@@ -269,7 +283,6 @@ def main(config_file, exclude):
 
         engines_list.append( engine_cls() )
 
-
     download(dwl, engines_list)
 
 
@@ -289,5 +302,5 @@ def run():
 
 
     opt = parser.parse_args()
-    
+
     main(opt.config, opt.engine.split(','))

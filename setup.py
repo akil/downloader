@@ -23,6 +23,7 @@ USR_PATH  = os.path.join('/usr/share', NAME)
 lib_tiers = [
     'lxml >= 3.4.2',
     'requests >= 2.2.1',
+    'pyOpenSSL >= 0.13'
 ]
 install_requires = list()
 
