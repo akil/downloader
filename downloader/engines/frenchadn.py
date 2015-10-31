@@ -10,13 +10,8 @@ username, password = ('skrillex', 'Mm5RrrFgOgR23zK')
 
 url_root   = 'https://french-adn.com'
 url_login  = 'https://french-adn.com/takelogin.php'
-url_search = 'https://french-adn.com/browse.php'
+url_search = 'http://french-adn.com/browse.php'
 
-
-proxies = {
-    'http'  : 'http://127.0.0.1:8080',
-    'https' : 'https://127.0.0.1:8080'
-}
 
 class Frenchadn(engine.Engine):
 
@@ -72,7 +67,7 @@ class Frenchadn(engine.Engine):
                 seed = 0
 
             prelink = {
-                'url'    : urlparse.urljoin(url_root, 'takethanks.php'),
+                'url'    : urlparse.urljoin(url_root.replace('https', 'http'), 'takethanks.php'),
                 'method' : 'post',
                 'data'   : {'torrentid=%s' % dwl.split('?')[1].split('=')[1]}
             }
