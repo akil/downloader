@@ -58,7 +58,9 @@ class Frenchadn(engine.Engine):
             if len(n) == 0: continue
             d = item.xpath('td[@class="alt2" and @align="center"]/a')
             s = item.xpath('td[@class="trow1" and @align="center"]/div/font/a')
-        
+
+            if len(d) == 0: continue
+            
             dwl     = d[1].get('href')
             name    = n[2].getchildren()[0].text
             try:
