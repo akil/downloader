@@ -1,5 +1,4 @@
-
-1;2802;0c# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 __app_name__    = 'downloader'
 __author__      = 'janemba'
