@@ -202,7 +202,7 @@ def _download_file(fileobject, engines_list):
                                                     'Seed:',
                                                     d['seed'],
                                                     'File:',
-                                                    d['filename'])
+                                                    d['filename'].encode('utf8'))
 
             if int(d['seed']) > int(current_seed):
                 current_seed, torrent, engine_name, engine_session = d['seed'], d, e.name(), session
