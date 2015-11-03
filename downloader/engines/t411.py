@@ -40,19 +40,19 @@ class T411(Engine):
 
         results = list()
         
-        tree = etree.HTML(r.text.encode('utf8'))
+        tree = etree.HTML(r.text.encode('utf-8'))
         for item in tree.xpath('//table/tbody/tr'):
             a = item.xpath('td/a')
             l = item.xpath('td[3]/a')
             s = item.xpath('td[8]')
 
-            filename = a[1].get('title')
+            filename = a[1].get('title').encode('ascii', 'xmlcharrefreplace')
             url      = urlparse.urljoin(url_root,
                                         l[0].get('href').replace('/nfo/', '/download/'))
             seed     = s[0].text
 
             results.append({
-                'filename' : filename.encode('utf8'),
+                'filename' : filename,
                 'url'      : url,
                 'seed'     : seed
             })

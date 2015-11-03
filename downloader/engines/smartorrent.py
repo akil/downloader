@@ -40,14 +40,14 @@ class Smartorrent(engine.Engine):
 
         results = list()
         
-        tree = etree.HTML(r.text.encode('utf8'))
+        tree = etree.HTML(r.text.encode('utf-8'))
         for item in tree.xpath('//div[@class="list-group"]/a'):
             link = item.get('href')
             name = item.xpath('h5/strong')
             seed = item.xpath('p/span[@class="pull-right"]/span[@class="label label-success"]')
 
             results.append({
-                'filename' : name[0].text,
+                'filename' : name[0].text.encode('ascii', 'xmlcharrefreplace'),
                 'url'      : link.replace('/torrents/', '/download/'),
                 'seed'     : seed[0].text
             })

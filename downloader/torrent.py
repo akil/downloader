@@ -10,6 +10,7 @@ import importlib
 import subprocess
 import collections
 import xml.dom.minidom
+import cchardet
 
 import downloader.engines
 
@@ -177,7 +178,7 @@ def get_it(torrent_url, prelink, path, session):
 
 
 def _download_file(fileobject, engines_list):
-
+    
     print "\t* searching [ %s ]" % fileobject
 
     torrent, current_seed, engine_name = None, 0, None
@@ -197,13 +198,14 @@ def _download_file(fileobject, engines_list):
 
         found = False
         for d in filter(lambda r : is_right_file(fileobject, r['filename']), res):
-            print '{0:20} {1} {2:3} {3} {4}'.format("[%s]" %
-                                                    e.name(),
-                                                    'Seed:',
-                                                    d['seed'],
-                                                    'File:',
-                                                    d['filename'].decode('utf-8'))
-
+                
+            print u"{0:20} {1} {2:3} {3} {4}".format("[%s]" %
+                                                     e.name(),
+                                                     'Seed:',
+                                                     d['seed'],
+                                                     'File:',
+                                                     d['filename'])
+            
             if int(d['seed']) > int(current_seed):
                 current_seed, torrent, engine_name, engine_session = d['seed'], d, e.name(), session
 
@@ -243,6 +245,7 @@ def download(download_list, engines_list):
 
 
 def main(config_file, exclude):
+    
     cfg = Config(config_file)
     dwl = list()
 
@@ -303,4 +306,9 @@ def run():
 
     opt = parser.parse_args()
 
-    main(opt.config, opt.engine.split(','))
+    if opt.engine is None:
+        exclude = []
+    else:
+        exclude = opt.engine.split(',')
+
+    main(opt.config, exclude)
