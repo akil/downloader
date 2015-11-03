@@ -22,7 +22,7 @@ class Nyaa(engine.Engine):
 
         for item in pagetree.xpath('//tr[@class="tlistrow"]'):
 
-            name = item.xpath('td[@class="tlistname"]/a')[0].text
+            name = item.xpath('td[@class="tlistname"]/a')[0].text.encode('ascii', 'xmlcharrefreplace')
             seed = item.xpath('td[@class="tlistsn"]')
             link = item.xpath('td[@class="tlistdownload"]/a')[0].get('href')
 
