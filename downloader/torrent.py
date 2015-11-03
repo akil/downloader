@@ -10,7 +10,6 @@ import importlib
 import subprocess
 import collections
 import xml.dom.minidom
-import cchardet
 
 import downloader.engines
 
