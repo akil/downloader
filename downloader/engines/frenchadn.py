@@ -63,8 +63,12 @@ class Frenchadn(engine.Engine):
                 dwl = d[1].get('href')
             except:
                 continue
+
+            try:
+                name = n[2].getchildren()[0].text
+            except:
+                continue
             
-            name    = n[2].getchildren()[0].text
             try:
                 seed = s[0].getchildren()[0].text
             except:
