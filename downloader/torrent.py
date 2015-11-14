@@ -125,7 +125,12 @@ def is_right_file(filename, result_file):
     if filename.type == 2:
         if filename.regex:
             m = filename.regex.search(f2)
-            if not m: return False
+
+            if not m:
+                for p in pattern_type2:                    
+                    m = p.search(f2)
+                    if m: break
+                if not m: return False
 
             retlst = f2.split('.')
             if len(retlst) <= 1:
@@ -229,8 +234,8 @@ def _download_file(fileobject, engines_list):
     return False
 
 
-
 def download(download_list, engines_list):
+    
     for f in download_list:
         r = _download_file(f, engines_list)
         while r == True and f.type == 2:
