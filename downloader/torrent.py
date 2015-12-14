@@ -265,11 +265,12 @@ def main(config_file, exclude):
 
             if nfd == 0:
                 if d.type == 1:
-                    dwl.append(Search(f, os.path.join(d.path, f), d.type))
+                    o = Search(f, os.path.join(d.path, f), d.type)
+                    if o not in dwl: dwl.append(o)
                 elif d.type == 2:
                     o = Search(f, os.path.join(d.path, f), d.type)
                     o.s, o.e = (1, 1)
-                    dwl.append(o)
+                    if o not in dwl: dwl.append(o)
             elif d.type == 2:
                 dlfile = get_next_file(f, os.path.join(d.path, f), d.type)
 
@@ -278,7 +279,7 @@ def main(config_file, exclude):
                         dlfile.e = 1
                     else:
                         dlfile.e += 1
-                    dwl.append(dlfile)
+                    if dlfile not in dwl: dwl.append(dlfile)
 
 
     engines_list = []
