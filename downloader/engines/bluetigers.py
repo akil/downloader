@@ -85,7 +85,7 @@ class Bluetigers(engine.Engine):
 
         tree  = etree.HTML(p.text)
         pages = self._pages(tree)
-
+        
         torrents = list()
         res      = self._get_torrents(tree)
 
