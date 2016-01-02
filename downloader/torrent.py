@@ -122,22 +122,24 @@ def is_right_file(filename, result_file):
     f1 = filename.name.lower()
     f2 = result_file.lower()
 
+    retlst = f2.split('.')
+    if len(retlst) <= 1:
+        retlst = f2.split(' ')
+        retlst = [ x.lower() for x in retlst ]
+        
     if filename.type == 2:
         if filename.regex:
             m = filename.regex.search(f2)
-
+            
             if not m:
                 for p in pattern_type2:                    
                     m = p.search(f2)
                     if m: break
-                if not m: return False
+                if not m: return False            
 
-            retlst = f2.split('.')
-            if len(retlst) <= 1:
-                retlst = f2.split(' ')
             
             for f in f1.split('.'):
-                if f not in retlst: return False
+                if f.lower() not in retlst: return False
             
             ret = m.groups()
             if len(ret) == 3:
@@ -148,6 +150,10 @@ def is_right_file(filename, result_file):
             else:
                 if filename.e == int(ret[0]): return True
                 return False
+        else:
+            for f in [f1, "s%02ie%02i" % (filename.s, filename.e)]:
+                if f not in retlst: return False
+            
 
     for fname in filter(lambda x: x.isalpha(), re.split("(\W+)", f1)):
         if f2.find(fname) == -1:
