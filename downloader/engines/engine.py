@@ -28,7 +28,7 @@ class RedirectHandler(urllib2.HTTPRedirectHandler):
         return ret
 
 
-class Engine(object):
+class Engine(object):    
     def url(self):
         raise NotImplementedError("Implementation of engine url")
 
