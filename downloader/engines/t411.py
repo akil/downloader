@@ -11,8 +11,8 @@ url_root   = 'http://www.t411.in'
 url_login  = 'http://www.t411.in/users/login'
 url_search = 'http://www.t411.in/torrents/search/?search=%s'
 
-#username, password = ('timeout', 'Mm5/RrrFgOgR23zK')
-username, password = ('pedrolito4321', 'H6F+THke9wfV9XyL')
+username, password = ('timeout', 'Mm5/RrrFgOgR23zK')
+#username, password = ('pedrolito4321', 'H6F+THke9wfV9XyL')
 
 class T411(Engine):
     def __init__(self):
