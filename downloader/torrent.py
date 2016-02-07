@@ -263,7 +263,7 @@ def main(config_file, exclude):
 
     for d in cfg.dir:
         os.chdir(d.path)
-        for f in filter(lambda f: not f.startswith('.') and os.path.isdir(f), os.listdir('.')):
+        for f in filter(lambda f: not f.startswith(u'.') and os.path.isdir(f), os.listdir(u'.')):
             try:
                 nfd = len(os.listdir(f))
             except OSError:
