@@ -30,10 +30,10 @@ class Nyaa(engine.Engine):
                 seed = 0
             else:
                 seed = seed[0].text
-                
+
             res.append({
                 'filename' : name,
-                'url'      : link,
+                'url'      : link.startswith('//') and "http:%s" % link or link,
                 'seed'     : seed
             })
 

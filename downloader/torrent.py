@@ -168,7 +168,7 @@ def get_it(torrent_url, prelink, path, session):
             session.post(prelink.get('url'), prelink.get('data'))
         else:
             session.get(prelink.get('url'))
-
+    
     r        = session.get(torrent_url, stream=True)
     tmp_file = tempfile.NamedTemporaryFile().name + '.torrent'
 
@@ -229,6 +229,9 @@ def _download_file(fileobject, engines_list):
 
     if torrent is not None:
         print "\t-> {0:18} Seed: {1:3} {2}".format("<%s>" % engine_name, torrent['seed'], torrent['filename'])
+        print "----------------"
+        print torrent
+        print "----------------"        
         get_it(torrent['url'], torrent.get('prelink', None), fileobject.path, engine_session)
 
         print ""
