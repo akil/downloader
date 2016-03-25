@@ -39,7 +39,7 @@ class Nyaa(engine.Engine):
 
         return res
 
-    
+
     def _search(self, filename):
 
         s = requests.Session()
@@ -47,11 +47,11 @@ class Nyaa(engine.Engine):
         r.close()
 
         self._session = s
-        
+
         tree  = etree.HTML(r.text.encode('utf8'))
         res   = self._get_results(tree)
         pages = tree.xpath('//div[@class="pages"]/a/@href')
-        
+
         if len(pages) == 0:
             return res
         else:
@@ -61,7 +61,7 @@ class Nyaa(engine.Engine):
 
             for page in pages:
 
-                r = self._session.get(page)
+                r = self._session.get(page.startswith('//') and "http:%s" % page or page)
                 r.close()
 
                 tree = etree.HTML(r.text.encode('utf8'))
@@ -69,16 +69,16 @@ class Nyaa(engine.Engine):
 
         return respages
 
-    
+
     def name(self):
-        
+
         return self._name
-    
+
 
     def url(self):
 
         return url_root
-    
+
 
     def get(self, filename):
 
