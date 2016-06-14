@@ -49,7 +49,7 @@ class Qctorrent(engine.Engine):
             'filter'        : 0
         }
 
-        r = self._session.post(url_search, payload, proxies = {'http' : 'http://localhost:8080'})
+        r = self._session.post(url_search, payload)
         r.close()
 
         html    = HTMLParser.HTMLParser()
@@ -59,11 +59,13 @@ class Qctorrent(engine.Engine):
         
         for item in tree.xpath('//a[contains(@href,"torrent")]'):
 
-            link = item.get('href')
-            url  = urlparse.urljoin(url_download, '/'.join(link.split('/')[2:]))
+            link     = item.get('href')
+            filename = item.text
+            url      = urlparse.urljoin(url_download,
+                                        '/'.join(link.split('/')[2:]))
             
             results.append({
-                'filename' : item.text,
+                'filename' : filename,
                 'url'      : url,
                 'seed'     : 0
             })
