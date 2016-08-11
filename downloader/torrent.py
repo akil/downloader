@@ -178,15 +178,15 @@ def get_it(torrent_url, prelink, path, session):
     r.close()
 
     cmd = (' '.join(cmd_args) % (tmp_file, path)).split()
-    print cmd
+
     r = subprocess.Popen(cmd,
                          stdout = subprocess.PIPE,
                          stderr = subprocess.PIPE)
     r.wait()
     
-    print r.returncode
-    print r.stdout.read()
-    print r.stderr.read()
+    if r.returncode != 0:
+        print "\t%s" % r.stdout.read()
+
     
     os.remove(tmp_file)
 
