@@ -2,3 +2,5 @@
 - idem t411
 - idem frenchadn
 - replace urllib with requests in frentorrentdb (redo the whole code)
+- do a JSON configuration files
+- Put login and password into the configuration file

@@ -17,7 +17,7 @@ from __meta__ import __description__
 from __meta__ import __version__
 
 
-cmd_args      = ['transmission-remote', '10.42.13.4', '-a', '%s', '-c', '/tmp', '-w',
+cmd_args      = ['transmission-remote', '10.42.13.4', '-a', '%s', '-w',
                  '%s', '--pex', '--dht']
 pattern_type2 = [
     re.compile(r"[\._ \-][Ss]([0-9]+)[\.\-]?[Ee]([0-9]+)([^\\/]*)"), # s01e02...
