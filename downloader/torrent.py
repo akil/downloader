@@ -28,6 +28,9 @@ pattern_type2 = [
     ]
 
 
+DEBUG = False
+
+
 class Config(object):
     def __init__(self, filename):
         self._file = filename
@@ -163,6 +166,8 @@ def is_right_file(filename, result_file):
 
 def get_it(torrent_url, prelink, path, session):
 
+    global DEBUG
+    
     if prelink is not None:
         if prelink.get('method') == 'post':
             session.post(prelink.get('url'), prelink.get('data'))
@@ -183,7 +188,11 @@ def get_it(torrent_url, prelink, path, session):
                          stdout = subprocess.PIPE,
                          stderr = subprocess.PIPE)
     r.wait()
-    
+
+    if DEBUG == True:
+        print "[debug] %s" % repr(cmd)
+        print "[debug] %s" % repr(r.stdout.read())
+        
     if r.returncode != 0:
         print "\t%s" % r.stdout.read()
 
@@ -304,7 +313,7 @@ def main(config_file, exclude):
     download(dwl, engines_list)
 
 
-def run():
+def run():    
     parser = argparse.ArgumentParser(description     = __description__,
                                      version         = __version__,
                                      formatter_class = argparse.ArgumentDefaultsHelpFormatter)
@@ -317,8 +326,13 @@ def run():
                         dest    = 'engine',
                         type    = str,
                         help    = 'exclude engine from search (--exclude=engine1,engine2)')
+    parser.add_argument('--debug',
+                        action  = 'store_true',
+                        dest    = 'debug',
+                        default = False,
+                        help    = 'print debug messages [default:%(default)s]')
 
-
+    
     opt = parser.parse_args()
 
     if opt.engine is None:
@@ -326,4 +340,8 @@ def run():
     else:
         exclude = opt.engine.split(',')
 
+    global DEBUG
+    
+    DEBUG = opt.debug
+    
     main(opt.config, exclude)
