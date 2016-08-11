@@ -191,7 +191,9 @@ def get_it(torrent_url, prelink, path, session):
 
     if DEBUG == True:
         print "[debug] %s" % repr(cmd)
+        print "[debug] return code: %d" % r.returncode
         print "[debug] %s" % repr(r.stdout.read())
+        print "[debug] %s" % repr(r.stderr.read())
         
     if r.returncode != 0:
         print "\t%s" % r.stdout.read()
