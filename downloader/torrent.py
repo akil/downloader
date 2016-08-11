@@ -195,8 +195,9 @@ def get_it(torrent_url, prelink, path, session):
         print "[debug] %s" % repr(r.stdout.read())
         print "[debug] %s" % repr(r.stderr.read())
         
-    if r.returncode != 0:
+    if int(r.returncode) != 0:
         print "\t%s" % r.stdout.read()
+        print "\t%s" % r.stderr.read()
 
     
     os.remove(tmp_file)
