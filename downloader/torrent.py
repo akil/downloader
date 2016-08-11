@@ -178,7 +178,7 @@ def get_it(torrent_url, prelink, path, session):
     r.close()
 
     cmd = (' '.join(cmd_args) % (tmp_file, path)).split()
-
+    print cmd
     r = subprocess.Popen(cmd,
                          stdout = subprocess.PIPE,
                          stderr = subprocess.PIPE)
