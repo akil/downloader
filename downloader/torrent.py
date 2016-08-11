@@ -183,7 +183,11 @@ def get_it(torrent_url, prelink, path, session):
                          stdout = subprocess.PIPE,
                          stderr = subprocess.PIPE)
     r.wait()
-
+    
+    print r.returncode
+    print r.stdout.read()
+    print r.stderr.read()
+    
     os.remove(tmp_file)
 
 
