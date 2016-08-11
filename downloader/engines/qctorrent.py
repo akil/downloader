@@ -27,35 +27,52 @@ class Qctorrent(engine.Engine):
 
     def _login(self):
 
+        headers = {
+            'Host': 'qctorrent.io',
+            'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0',
+            'Accept' : 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language' : 'en-US,en;q=0.5',
+            'Accept-Encoding' : 'gzip, deflate',
+            'Referer' : 'http://qctorrent.io/login',
+            'Content-Type' : 'application/x-www-form-urlencoded'
+        }
+        
         payload = {
             'login-username' : username,
             'login-password' : password,
             'login' : ''
         }
-
-        s = requests.Session()
-        r = s.post(url_login, payload)
+        
+        s = requests.session()
+        s.get(url_root)
+        
+        r = s.post(url_login, payload, headers = headers)
 
         self._session = s
+        
 
-
+        
     def _search(self, filename):
 
+        results = list()
         payload = {
             'search_string' : "%%%s%%" % filename,
             'page'          : 1,
             'aid'           : self._session.cookies.get('QcTID'),
             'order'         : 0,
-            'filter'        : 0
+            'filter'        : 0,
+            'categories'    : '',
         }
 
         r = self._session.post(url_search, payload)
         r.close()
-
+        
+        if len(r.text) == 0:
+            return results
+       
         html    = HTMLParser.HTMLParser()
         raw     = html.unescape(r.text.encode('utf-8'))
         tree    = etree.HTML(raw)
-        results = list()
         
         for item in tree.xpath('//a[contains(@href,"torrent")]'):
 
