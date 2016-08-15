@@ -25,22 +25,28 @@ class Cpasbien(engine.Engine):
 
         res = list()
 
-        items = pagetree.xpath('//div[starts-with(@class, "ligne")]')
+        idx = 3
+        while True:
 
-        for idx, item in enumerate(items):
-            filename = item.xpath('//a[@class="titre"]')[idx].text
-            seed = item.xpath('//span[@class="seed_ok"]')[idx].text
-            link = item.xpath('//a[@class="titre"]')[idx].get('href')
+            f_link = pagetree.xpath('//*[@id="gauche"]/div[%d]/a' % idx)
+            if len(f_link) == 0: break
+            seed   = pagetree.xpath('//*[@id="gauche"]/div[%d]/div[2]/span' % idx)
             
-            u = urlparse.urlsplit(link).path.split('/')
-            u_torrent = u[len(u) - 1].replace('.html', '.torrent')
+            filename = f_link[0].text
+            link     = f_link[0].get('href')
+            seed     = seed[0].text
+                       
+            path     = urlparse.urlsplit(link).path.split('/')
+            path_tor = path[len(path) - 1].replace('.html', '.torrent')
             
             res.append({
                 'filename' : filename,
-                'url'      : urlparse.urljoin(url_download, u_torrent),
+                'url'      : urlparse.urljoin(url_download, path_tor),
                 'seed'     : seed
-            })
+            })            
             
+            idx = idx + 1
+
         return res
 
 
@@ -73,4 +79,3 @@ class Cpasbien(engine.Engine):
         self._session = cfscrape.create_scraper()
 
         return self._search(filename), self._session
-
