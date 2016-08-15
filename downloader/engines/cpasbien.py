@@ -68,7 +68,7 @@ class Cpasbien(engine.Engine):
         return url_root
 
 
-    def search(self, filename):
+    def get(self, filename):
 
         self._session = cfscrape.create_scraper()
 
