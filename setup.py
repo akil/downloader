@@ -24,6 +24,8 @@ lib_tiers = [
     'lxml >= 3.4.2',
     'requests >= 2.2.1',
     'pyOpenSSL >= 0.13',
+    'six >= 1.10',
+    'tzlocal => 1.2.2',
     'cfscrape >= 1.6.6'
 ]
 install_requires = list()
