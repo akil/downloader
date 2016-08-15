@@ -46,7 +46,8 @@ class Cpasbien(engine.Engine):
 
     def _search(self, filename):
 
-        url = urlparse.urljoin(url_search, "%s.html" % filename.replace('+', '-'))
+        link = "%s.html" % filename.name.replace('+', '-')
+        url  = urlparse.urljoin(url_search, link)
 
         p = self._session.get(url)
         p.close()
@@ -55,7 +56,6 @@ class Cpasbien(engine.Engine):
         res   = self._results(tree)
 
         return res
-
 
 
     def name(self):
