@@ -30,7 +30,13 @@ class Cpasbien(engine.Engine):
 
             f_link = pagetree.xpath('//*[@id="gauche"]/div[%d]/a' % idx)
             if len(f_link) == 0: break
-            seed   = pagetree.xpath('//*[@id="gauche"]/div[%d]/div[2]/span' % idx)
+
+            try:
+                seed = pagetree.xpath('//*[@id="gauche"]/div[%d]/div[2]/span' % idx)
+            except IndexError:
+                pass
+
+            if len(seed) == 0: break
             
             filename = f_link[0].text
             link     = f_link[0].get('href')
