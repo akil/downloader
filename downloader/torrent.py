@@ -67,7 +67,8 @@ class Search(object):
         elif self.e is not None:
             s += " %02i" % self.e
 
-        return s.replace(' ', '+')
+        return s
+        #return s.replace(' ', '+')
 
     def __str__(self):
         return self.__repr__()
