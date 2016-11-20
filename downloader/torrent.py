@@ -11,6 +11,11 @@ import subprocess
 import collections
 import xml.dom.minidom
 
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+
 import downloader.engines
 
 from __meta__ import __description__
@@ -67,8 +72,7 @@ class Search(object):
         elif self.e is not None:
             s += " %02i" % self.e
 
-        return s
-        #return s.replace(' ', '+')
+        return s.replace(' ', '+')
 
     def __str__(self):
         return self.__repr__()

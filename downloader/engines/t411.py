@@ -7,9 +7,9 @@ import urlparse
 from engine import Engine
 
 
-url_root   = 'http://www.t411.ch'
-url_login  = 'http://www.t411.ch/users/login'
-url_search = 'http://www.t411.ch/torrents/search/?search=%s'
+url_root   = 'http://www.t411.li'
+url_login  = 'http://www.t411.li/users/login'
+url_search = 'http://www.t411.li/torrents/search/?search=%s'
 
 #username, password = ('martinpedro', 'Mm5/RrrFgOgR23zK')
 username, password = ('timeout', 'Mm5/RrrFgOgR23zK')
