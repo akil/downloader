@@ -8,9 +8,9 @@ import engine
 
 username, password = ('outkast', 'Mm5/RrrFgOgR23zK')
 
-url_root   = 'http://smartorrent.com'
-url_login  = 'http://smartorrent.com/login'
-url_search = 'http://smartorrent.com/executeSearch'
+url_root   = 'http://www.torrent9.biz'
+url_login  = 'http://www.torrent9.biz/login'
+url_search = 'http://www.torrent9.biz/executeSearch'
 
 
 class Smartorrent(engine.Engine):

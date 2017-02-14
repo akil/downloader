@@ -7,4 +7,4 @@ __all__ = ['bluetigers',
            'nyaa',
            'frenchadn',
            'qctorrent',
-           'cpasbien']
+           'torrent9']

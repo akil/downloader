@@ -11,18 +11,13 @@ import subprocess
 import collections
 import xml.dom.minidom
 
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
-
 import downloader.engines
 
 from __meta__ import __description__
 from __meta__ import __version__
 
 
-cmd_args      = ['transmission-remote', '10.42.13.4', '-c', '/opt/multimedia/incomplete', '--add', '%s', '-w',
+cmd_args      = ['transmission-remote', '10.42.13.6', '-c', '/opt/multimedia/incomplete', '--add', '%s', '-w',
                  '%s', '--pex', '--dht']
 pattern_type2 = [
     re.compile(r"[\._ \-][Ss]([0-9]+)[\.\-]?[Ee]([0-9]+)([^\\/]*)"), # s01e02...
