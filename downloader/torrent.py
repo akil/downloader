@@ -122,6 +122,7 @@ def get_next_file(directory, path, stype):
     return search_file
 
 def is_right_file(filename, result_file):
+    
     f1 = filename.name.lower()
     f2 = result_file.lower()
 
@@ -196,11 +197,9 @@ def get_it(torrent_url, prelink, path, session):
         print "[debug] %s" % repr(r.stderr.read())
         
     if int(r.returncode) != 0:
-        print "\t%s" % r.stdout.read()
-        print "\t%s" % r.stderr.read()
-
-    
-    os.remove(tmp_file)
+        print "\t[*] Failed: %s" % r.stderr.read()
+    else:
+        os.remove(tmp_file)
 
 
 def _download_file(fileobject, engines_list):
@@ -222,6 +221,10 @@ def _download_file(fileobject, engines_list):
             print '{0:20}{1}'.format("[%s]" % e.name(), "Can't log-in")
             continue
         
+        if len(res) == 0:
+            print '{0:20}{1}'.format("[%s]" % e.name(), "No result")
+            continue
+        
         found = False
         for d in filter(lambda r : is_right_file(fileobject, r['filename']), res):
                 
@@ -236,9 +239,6 @@ def _download_file(fileobject, engines_list):
                 current_seed, torrent, engine_name, engine_session = d['seed'], d, e.name(), session
 
             found = True
-
-        if len(res) == 0:
-            print '{0:20}{1}'.format("[%s]" % e.name(), "No result")
 
         if len(res) and found == False:
             print '{0:20}{1}'.format("[%s]" % e.name(), "No corresponding results")
