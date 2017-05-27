@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 
-__app_name__    = 'downloader'
-__author__      = 'janemba'
-__email__       = 'cap.janemba@gmail.com'
-__version__     = '1.6.11'
-__description__ = 'Search and download torrent from multiple private trackers'
-__maintainer__  = '[janemba <cap.janemba@gmail.com>]'
-__url__         = 'http://none'
-
+__version__     = '1.0'
+__project__     = 'downloader'
+__description__ = 'multiple torrent engines downloader'
+__epilog__      = '''
+  $ ./downloader --help
+'''
+__author__      = "janemba"
+__copyright__   = "(_)_)======D 2017"
+__license__     = "WTFPL"
+__maintainer__  = "janemba"
+__email__       = "cap.janemba@gmail.com"
+__status__      = "Production"

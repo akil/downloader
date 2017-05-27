@@ -1,6 +1,0 @@
-- for smartorrent add search in other pages (on the website when clicking to p[age -> go to home ???)
-- idem t411
-- idem frenchadn
-- replace urllib with requests in frentorrentdb (redo the whole code)
-- do a JSON configuration files
-- Put login and password into the configuration file

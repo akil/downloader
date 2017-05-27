@@ -3,41 +3,35 @@
 
 import os
 import sys
-import glob
 import setuptools
+
 
 execfile('downloader/__meta__.py')
 
-NAME         = __app_name__
+NAME         = __project__
 AUTHOR       = __author__
 AUTHOR_EMAIL = __email__
 VERSION      = __version__
 DESCRIPTION  = __description__
 MAINTAINER   = __maintainer__
-URL          = __url__
 
 BIN_PATH  = '/usr/bin' 
-CONF_PATH = os.path.join('/etc/', NAME)
 USR_PATH  = os.path.join('/usr/share', NAME)
 
-lib_tiers = [
-    'lxml >= 3.4.2',
-    'requests >= 2.2.1',
-    'pyOpenSSL >= 0.13',
-    'six >= 1.10',
-    'tzlocal >= 1.2.2',
-    'cfscrape >= 1.6.6'
+libs = [
+    'PyYaml',
+    'requests',
+    'cfscrape',
 ]
 install_requires = list()
 
 if sys.version_info < (2, 7):
-    install_requires.append('argparse >= 1.1')
-install_requires.extend(lib_tiers)
+    install_requires.append('argparse')
+install_requires.extend(libs)
 
-data_files = list()
-data_files.append( (BIN_PATH, ['bin/downloader']) )
-data_files.append( (CONF_PATH, ['config/downloader.example.cfg']) )
-data_files.append( (os.path.join(USR_PATH, 'docs'),  glob.glob('docs/*')) )
+files = list()
+files.append( (BIN_PATH, ['bin/downloader']) )
+files.append( (USR_PATH, ['config/downloader.cfg.example']) )
 
 setuptools.setup (
     name                 = NAME,
@@ -46,14 +40,14 @@ setuptools.setup (
     maintainer           = MAINTAINER,
     description          = DESCRIPTION,
     platforms            = ['GNU/Linux'],
-    url                  = URL,
+    url                  = '',
     version              = VERSION,
     packages             = ['downloader', 'downloader.engines'],
     scripts              = ['bin/downloader'],
-    long_description     = open('README').read(),
+    long_description     = open('README.md').read(),
     install_requires     = install_requires,
     include_package_data = True,
-    data_files           = data_files,
+    data_files           = files,
     classifiers          = [
         "Development Status :: 4 - Beta",
         "Topic :: System :: Networking",
@@ -64,3 +58,12 @@ setuptools.setup (
         "Environment :: Console",
     ]
 )
+
+
+print "\n************************************************"
+print "Please check the default configuration file at:"
+print "\t%s\n" % USR_PATH
+print "$ mkdir -p ~/.config/downloader"
+print "$ cp %s ~/.config/downloader\n" % os.path.join(USR_PATH, 'downloader.cfg.example')
+print "*************************************************\n"
+

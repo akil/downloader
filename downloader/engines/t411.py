@@ -4,18 +4,13 @@ from lxml import etree
 import requests
 import urlparse
 
-from engine import Engine
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+import engine
 
 
-url_root   = 'http://www.t411.li'
-url_login  = 'http://www.t411.li/users/login'
-url_search = 'http://www.t411.li/torrents/search/?search=%s'
-
-#username, password = ('martinpedro', 'Mm5/RrrFgOgR23zK')
-username, password = ('timeout', 'Mm5/RrrFgOgR23zK')
-#username, password = ('pedrolito4321', 'H6F+THke9wfV9XyL')
-
-class T411(Engine):
+class T411(engine.Engine):
     def __init__(self):
 
         self._name    = 't411'
@@ -25,20 +20,24 @@ class T411(Engine):
     def _login(self):
 
         payload = {
-            'login'    : username,
-            'password' : password,
-            'remember' : 0
+            'login'    : self._config['username'],
+            'password' : self._config['password'],
+            'remember' : 1
         }
 
         s = requests.session()
-        r = s.post(url_login, payload)
+        s.headers.update({
+            'User-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20100101 Firefox/21.0"
+        })
+        r = s.post(self._config['url-login'], data=payload, verify=False)
 
         self._session = s
 
         
     def _search(self, filename):
 
-        r = self._session.get(url_search % filename)
+        u = "%s%s" % (self._config['url-search'], filename)
+        r = self._session.get(u, verify=False)
 
         results = list()
         
@@ -49,7 +48,7 @@ class T411(Engine):
             s = item.xpath('td[8]')
 
             filename = a[1].get('title').encode('ascii', 'xmlcharrefreplace')
-            url      = urlparse.urljoin(url_root,
+            url      = urlparse.urljoin(self._config['url-root'],
                                         l[0].get('href').replace('/nfo/', '/download/'))
             seed     = s[0].text
 
@@ -66,11 +65,16 @@ class T411(Engine):
 
         return self._name
 
+
     def url(self):
 
-        return url_root
+        return self._config['url-root']
 
-    def get(self, filename):
+    
+    def get(self, filename, config):
+
+        self._config = config
+        
         if self._session is None:
             self._login()
 
