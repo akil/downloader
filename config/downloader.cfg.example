@@ -68,12 +68,15 @@ engines:
         url-root: https://www.t411.al
         url-login: https://www.t411.al/users/login
         url-search: https://www.t411.al/torrents/search/?search=
-
+    1337x:
+        separator: +
+        url-root: http://1337x.to
+        url-search: http://1337x.to/srch?search=
 
 ## excludes
 ##  If you don't want to look for some torrent engine just add it/them here. Format is the following
 ##   [torrents9, t411]
-excludes: [torrent9, nextorrent, nyaa]
+excludes: [torrent9, nextorrent, nyaa, t411]
 
 
 ## out
@@ -110,7 +113,6 @@ out:
             - '--pex'
             - '--dht'
         home: /tmp
-
 
 ## logging
 ##  debugging feature

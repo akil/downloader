@@ -121,7 +121,7 @@ def _cast_vfiles(files, path, mode):
 
 def _loop_files(path, mode):
 
-    selectdirs  = lambda f: not f.startswith('.') and os.path.isdir(os.path.join(path, f))
+    selectdirs = lambda f: not f.startswith('.') and os.path.isdir(os.path.join(path, f))
     for directory in filter(selectdirs, os.listdir(u'%s' % path)):
 
         abs_dirs = os.path.join(path, directory)

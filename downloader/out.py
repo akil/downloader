@@ -47,7 +47,8 @@ def cmd(todownload, config):
     except Exception as e:
         _LOG.debug("cookie:ko error:%s" % str(e))
     else:
-
+        os.chmod(filepath, 0777)
+        
         url, path = todownload.results['url'], todownload.vf.path
         cmd = (' '.join(config['transmission']) % (url, path)).split()
 
