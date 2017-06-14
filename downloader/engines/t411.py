@@ -44,18 +44,21 @@ class T411(engine.Engine):
         tree = etree.HTML(r.text.encode('utf-8'))
         for item in tree.xpath('//table/tbody/tr'):
             a = item.xpath('td/a')
-            l = item.xpath('td[3]/a')
             s = item.xpath('td[8]')
 
             filename = a[1].get('title').encode('ascii', 'xmlcharrefreplace')
-            url      = urlparse.urljoin(self._config['url-root'],
-                                        l[0].get('href').replace('/nfo/', '/download/'))
+            link     = a[1].get('href').replace('//', 'https://')
             seed     = s[0].text
+            
+            pagetorrent = self._session.get(link, verify=False)
+            magnetree   = etree.HTML(pagetorrent.text.encode('utf-8'))
 
+            infohash = magnetree.xpath('//div[@class="accordion"]/div/table/tr[5]/td/text()').pop()
+            
             results.append({
                 'filename' : filename,
-                'url'      : url,
-                'seed'     : seed
+                'url'      : "magnet:?xt=urn:btih:%s" % infohash,
+                'seed'     : int(seed)
             })
 
         return results

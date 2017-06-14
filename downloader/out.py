@@ -64,4 +64,4 @@ def cmd(todownload, config):
             if int(r.returncode) != 0:
                 _LOG.error("add:failed code:%d cmd:%r error:%s" % (r.returncode, cmd, stdout.replace('\n', ' ')))
 
-        #os.remove(filepath)
+        os.remove(filepath)

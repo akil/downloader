@@ -55,9 +55,9 @@ engines:
         separator: ' '
         username: timeout
         password: Mm5/RrrFgOgR23zK
-        url-root: https://www.nextorrent.net
-        url-login: https://www.nextorrent.net/account
-        url-search: https://www.nextorrent.net
+        url-root: https://www.nextorrent.ws
+        url-login: https://www.nextorrent.ws/account
+        url-search: https://www.nextorrent.ws
     nyaa:
         separator: +
         url-root: https://nyaa.si
@@ -76,7 +76,7 @@ engines:
 ## excludes
 ##  If you don't want to look for some torrent engine just add it/them here. Format is the following
 ##   [torrents9, t411]
-excludes: [torrent9, nextorrent, nyaa, t411]
+excludes: [1337x,nyaa,nextorrent,torrent9]
 
 
 ## out
