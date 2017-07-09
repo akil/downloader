@@ -37,6 +37,38 @@ def store(todownload, config):
 
 def cmd(todownload, config):
 
+    url = todownload.results['url']
+    if not url.startswith('http://') and not url.startswith('https://'):
+        torrent = url
+    else:
+    
+        torrent = "%s.torrent" % tempfile.NamedTemporaryFile().name
+        page    = todownload.session.get(url,
+                                         stream=True,
+                                         verify=False)
+        _write_torrent(torrent, page)
+          
+    path = todownload.vf.path
+    cmd  = (' '.join(config['transmission']) % (torrent, path)).split()
+
+    try:
+        r = subprocess.Popen(cmd,
+                             stdout = subprocess.PIPE,
+                             stderr = subprocess.PIPE)
+    except OSError as e:
+        _LOG.error("add:failed cmd:%r error:%s" % (cmd, e.strerror))
+    else:
+        stdout, stderr = r.communicate()
+
+        if int(r.returncode) != 0:
+            _LOG.error("add:failed code:%d cmd:%r error:%s" % (r.returncode, cmd, stdout.replace('\n', ' ')))
+                
+    if os.path.isfile(torrent): os.remove(torrent)
+
+
+        
+def cmd2(todownload, config):
+
     filepath = os.path.join(config['home'], 'cookies.txt')
     cookie   = cookielib.MozillaCookieJar(filepath)
 
@@ -63,5 +95,5 @@ def cmd(todownload, config):
 
             if int(r.returncode) != 0:
                 _LOG.error("add:failed code:%d cmd:%r error:%s" % (r.returncode, cmd, stdout.replace('\n', ' ')))
-
+                
         os.remove(filepath)
