@@ -40,7 +40,7 @@ setuptools.setup (
     maintainer           = MAINTAINER,
     description          = DESCRIPTION,
     platforms            = ['GNU/Linux'],
-    url                  = '',
+    url                  = 'https://github.com/akil/downloader',
     version              = VERSION,
     packages             = ['downloader', 'downloader.engines'],
     scripts              = ['bin/downloader'],
