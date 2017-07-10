@@ -17,7 +17,7 @@ After downloading the torrent file, downloader can *save* the torrent file or *a
 
 # Installation
 
-```
+```bash
 $ python setup.py install
 $ mkdir ~/.config/downloader
 $ cp /usr/share/downloader/downloader.cfg.example ~/.config/downloader/downloader.cfg
@@ -33,7 +33,7 @@ $ downloader ~/.config/downloader/downloader.cfg
 3) Create your engine file (with the same name as *__init__.py*) in *engines* directory
 4) Name your class with the same name of the file and capitalized (Ex: nextorrent.py -> class Nextorrent(engine.Engine))
 5) *get* method must return a list of dictionaries like the following :
-```
+```python
 [{'url': 'http://foo.com/file.torrent', 'seed': 5, 'filename': 'Black list S04E22 HDTV'}]
 ```
 - Filename is the file from the engine
