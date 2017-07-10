@@ -24,7 +24,7 @@ paths:
     - documentary:
         path: '/mnt/videos/documentary'
         mode: 1
-    - spectacle:
+    - showbiz:
         path: '/mnt/videos/spectacle'
         mode: 1
 
