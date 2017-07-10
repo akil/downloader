@@ -53,3 +53,9 @@ However, more engine will be added and I'm feeling lazy right now so to update t
 
 - Configuration file use YAML format, use only spaces.
 - Make a pull request for more engine.
+- For now Downloader use the following torrent engine :
+  - torrent9
+  - nextorrent
+  - nyaa
+  - t411
+  - 1337x
