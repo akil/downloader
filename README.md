@@ -1,17 +1,17 @@
 # Downloader
 
-Downloader is a multiple engine torrent downloader. It automatically detect which files to downloader and automatically look for next episode on torrent engines.
+Downloader is a multiple engine torrent downloader. It automatically detect which files to downloade and automatically look for next episode on torrent engines.
 
 # How it works
 
-Read the configuration file and set your video files directories. Downloader, uses two modes according to file type :
+Read the configuration file and set your video/whatever files directories. Downloader, uses two modes according to file type :
 * mode 1 : Means simple file
 * mode 2 : Means complex file like TV shows
 
 - For mode 1, empty directory means download the corresponding file based on the folder name.
-** Ex: Transformers.720p (Downloader will search for "Transformers 720p" on torrent engine)
+* Ex: Transformers.720p (Downloader will search for "Transformers 720p" on torrent engine)
 - For mode 2, if the directory is empty Downloader will download the file based on directory name beginning by S01E01. If the directory is not empty Downloader will search for the next episode.
-** Ex: Prison.break.720p (if empty Downloader will search for "prison break 720p S01E01". If not empty Downloader will search for "prison break 720p S02E03").
+* Ex: Prison.break.720p (if empty Downloader will search for "prison break 720p S01E01". If not empty Downloader will search for "prison break 720p S02E03").
 
 After downloading the torrent file, downloader can *save* the torrent file or *add* it to transmission. Check the configuration file.
 
