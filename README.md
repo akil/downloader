@@ -26,7 +26,7 @@ $ downloader ~/.config/downloader/downloader.cfg
 
 # For developer
 
-- Adding an engine is easy see *engines* directory.
+Adding an engine is easy see *engines* directory and read the following steps :
 
 1) Add your engine filename (without .py extension) in *engines/__init__.py*
 2) Check *engine.py* file in *engines/engine.py*
