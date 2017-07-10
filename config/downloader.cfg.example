@@ -25,7 +25,7 @@ paths:
         path: '/mnt/videos/documentary'
         mode: 1
     - showbiz:
-        path: '/mnt/videos/spectacle'
+        path: '/mnt/videos/showbiz'
         mode: 1
 
 ## patterns
