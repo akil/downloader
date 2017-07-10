@@ -47,7 +47,7 @@ Updating Downloader is easy :
 2. download the archive and execute *setup.py* script
 3. if you keep the repository just type the following: *git pull*
 
-However, more engine will be added and I'm feeling lazy right now so to update the future engine use one of the previopus method and diff the configuration file for new settings.
+However, more engine will be added and I'm feeling lazy right now so to update the future engine use one of the previous method and diff the configuration file for new settings.
 
 # Misc
 
