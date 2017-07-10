@@ -76,7 +76,7 @@ engines:
 ## excludes
 ##  If you don't want to look for some torrent engine just add it/them here. Format is the following
 ##   [torrents9, t411]
-excludes: [1337x,nyaa,nextorrent,torrent9]
+excludes: []
 
 
 ## out
@@ -95,6 +95,8 @@ excludes: [1337x,nyaa,nextorrent,torrent9]
 ##          setting is used to store cookies.txt for private tracker. Download URL is submitted to transmission
 ##          and transmission need the cookie to download from private tracker.
 ##          Also, for transmission engines can return magnet links.
+##          For "cmd" do not forget to set the second parameter (IP address of transmission daemon) and the fourth
+##          one (directory for incomplete file). Alternatively you can remove unecessary switch.
 #
 out:
     choice: cmd
@@ -103,7 +105,7 @@ out:
     cmd:
         transmission:
             - 'transmission-remote'
-            - 'media.calculus.lan'
+            - '192.168.1.42'
             - '-c'
             - '/opt/multimedia/incomplete'
             - '--add'

@@ -43,7 +43,7 @@ class VideoFile(object):
 
                 self.pattern = pattern
 
-                
+
     def __str__(self):
 
         if not hasattr(self, 'season'):
@@ -54,17 +54,17 @@ class VideoFile(object):
             else:
                 return "%s %02d" % (self.filename, self.episode)
 
-            
+
     def __repr__(self):
 
         return self.__str__()
 
-    
+
     def name(self):
 
         return self.__str__()
 
-    
+
     def next(self, season=False):
 
         assert self.mode != _MODE_SIMPLE, "Can't call next (check your file)"
@@ -104,7 +104,7 @@ def _cast_vfiles(files, path, mode):
 
     if mode == _MODE_SIMPLE:
         if len(files) == 0:
-            _vfiles.append(VideoFile(os.path.basename(path), path, mode))        
+            _vfiles.append(VideoFile(os.path.basename(path), path, mode))
     elif mode == _MODE_COMPLEX:
         for f in files:
             vf = VideoFile(os.path.basename(path), path, mode, f)
@@ -113,7 +113,7 @@ def _cast_vfiles(files, path, mode):
         if len(files) == 0:
             p = os.path.basename(path)
             _vfiles.append(VideoFile(p, path, mode, "%s s01e00" % p))
-            
+
     _LOG.debug("add:%r" % _vfiles)
 
     return _vfiles
@@ -212,12 +212,12 @@ def outfile(todownload):
 
     call(todownload, _SETTINGS['out'][choice])
 
-    
+
 def download(video_file, torengines, recursion=True):
 
     _LOG.debug("process:%s" % video_file)
     print "\t[+] %s" % video_file
-    
+
     fields     = ['engine', 'session', 'results', 'seed', 'vf']
     todownload = collections.namedtuple('Todownload', fields)
 
@@ -247,12 +247,12 @@ def download(video_file, torengines, recursion=True):
             todownload.results = res[selected]
             todownload.seed    = curseed
             todownload.vf      = video_file
-            
+
     if curseed != -1:
         outfile(todownload)
         if video_file.mode == _MODE_COMPLEX:
             video_file.next()
-            download(video_file, torengines)            
+            download(video_file, torengines)
     elif video_file.mode == _MODE_COMPLEX and video_file.season is not None and recursion:
         video_file.next(season = True)
         download(video_file, torengines, False)
@@ -271,14 +271,17 @@ def start(config, debug):
             for p in settings['patterns']: patterns.append(re.compile(p))
             _SETTINGS = settings
             _SETTINGS['patterns'] = patterns
-            logging.config.dictConfig(_SETTINGS['logging'])
+            if not debug:
+                logging.disable(logging.CRITICAL)
+            else:
+                logging.config.dictConfig(_SETTINGS['logging'])
     except IOError as e:
         print e.strerror, "[ %s ]" % config
         return 1
     except yaml.YAMLError, exc:
         print "Error in configuration file:", str(exc).replace('\n', ' ')
         return 2
-        
+
     torengines = []
     for e in filter(lambda e: e not in _SETTINGS['excludes'], engines.__all__):
 
@@ -298,7 +301,7 @@ def start(config, debug):
 
 
 def run():
-    
+
     parser = argparse.ArgumentParser(
         version         = __meta__.__version__,
         description     = __meta__.__description__,

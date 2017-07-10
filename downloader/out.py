@@ -40,8 +40,7 @@ def cmd(todownload, config):
     url = todownload.results['url']
     if not url.startswith('http://') and not url.startswith('https://'):
         torrent = url
-    else:
-    
+    else:    
         torrent = "%s.torrent" % tempfile.NamedTemporaryFile().name
         page    = todownload.session.get(url,
                                          stream=True,
