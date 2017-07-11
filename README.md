@@ -1184,20 +1184,20 @@ However, more engine will be added and I'm feeling lazy right now so to update t
 - I use the following structure :
 ```
 ```
-
-├── animes
-│   ├── trickster.vostfr
-│   └── trinity.blood.vostfr
-├── documentary
-│   └── the.hacker.wars.doc
-├── movies
-│   ├── Interstellar.1080p
-│   └── war.dogs.2016
-├── series
-│   ├── narcos
-└── sports
-    ├── UFC.PPV
-    └── the.ultimate.tuf
+  /opt/multimedia/videos
+    ├── animes
+    │   ├── trickster.vostfr
+    │   └── trinity.blood.vostfr
+    ├── documentary
+    │   └── the.hacker.wars.doc
+    ├── movies
+    │   ├── Interstellar.1080p
+    │   └── war.dogs.2016
+    ├── series
+    │   ├── narcos
+    └── sports
+        ├── UFC.PPV
+        └── the.ultimate.tuf
 
 # For developer
 
