@@ -29,7 +29,7 @@ $ downloader ~/.config/downloader/downloader.cfg
 Updating Downloader is easy :
 1. clone the repository again and execute *setup.py* script
 2. download the archive and execute *setup.py* script
-3. if you keep the repository just type the following: *git pull*
+3. if you keep the repository just type the following command: *git pull*
 
 However, more engine will be added and I'm feeling lazy right now so to update the future engine use one of the previous method and diff the configuration file for new settings.
 
@@ -48,6 +48,8 @@ Adding an engine is easy see *engines* directory and read the following steps :
 - Filename is the file from the engine
 - Url is the download URL (can be the corresponding .torrent file or a magent link)
 - Seed is the seed for the corresponding file
+
+Do not filter the results, it's done by core Downloader program.
 
 # Misc
 
