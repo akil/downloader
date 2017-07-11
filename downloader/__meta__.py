@@ -2,13 +2,13 @@
 
 __version__     = '1.0'
 __project__     = 'downloader'
-__description__ = 'multiple torrent engines downloader'
+__description__ = 'multiple torrent-engine downloader'
 __epilog__      = '''
   $ ./downloader --help
 '''
-__author__      = "janemba"
+__author__      = "akil"
 __copyright__   = "(_)_)======D 2017"
 __license__     = "WTFPL"
-__maintainer__  = "janemba"
-__email__       = "cap.janemba@gmail.com"
+__maintainer__  = "akil"
+__email__       = "akil@nanotek.info"
 __status__      = "Production"
