@@ -1174,7 +1174,7 @@ However, more engine will be added and I'm feeling lazy right now so to update t
 1. Install Plex
 2. Install tranmission-daemon
 3. Plug Raspberry PI on your TV and install RasPlex
-4. Write a cron job for downloader
+4. Write a cron job for Downloader
 5. Enjoy your movies and series on your TV without doing anything ;)
 
 # Tips
