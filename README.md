@@ -1,6 +1,6 @@
 # Downloader
 
-Downloader is a multiple engine torrent downloader. It automatically detect which files to downloade and automatically look for next episode on torrent engines.
+Downloader is a multiple engine torrent downloader. It automatically detect which files to download and automatically look for next episode on torrent engines.
 
 # How it works
 
