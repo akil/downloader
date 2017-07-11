@@ -1180,6 +1180,7 @@ However, more engine will be added and I'm feeling lazy right now so to update t
 # Tips
 
 - If you want to begin a TV shows after S04E11 just create that file into your directory. Downloader do not care of the file type
+- If you named your directory with '720p','1080p','HDRip' Downloader will check for torrent file with that information
 - I use the following structure :
 ```
 ```
