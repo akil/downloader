@@ -1184,7 +1184,7 @@ However, more engine will be added and I'm feeling lazy right now so to update t
 - I use the following structure :
 ```
 ```
-  /opt/multimedia/videos
+    /opt/multimedia/videos
     ├── animes
     │   ├── trickster.vostfr
     │   └── trinity.blood.vostfr
