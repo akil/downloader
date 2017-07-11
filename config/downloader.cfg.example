@@ -91,9 +91,9 @@ excludes: []
 ##
 ##  You need to set "choice" settings to "store" or "cmd". By default path for "store" is empty.
 ##
-##  Remark: "home" setting from "cmd" is transmission configuration directory (where settings.json is). That
-##          setting is used to store cookies.txt for private tracker. Download URL is submitted to transmission
-##          and transmission need the cookie to download from private tracker.
+##  Remark: "home" setting from "cmd" is transmission configuration directory (where settings.json is, usually in
+##          /var/liv/transmission). This setting is used to store cookies.txt for private tracker. Download URL is
+##          submitted to transmission and transmission need the cookie to download from private tracker.
 ##          Also, for transmission engines can return magnet links.
 ##          For "cmd" do not forget to set the second parameter (IP address of transmission daemon) and the fourth
 ##          one (directory for incomplete file). Alternatively you can remove unecessary switch.
