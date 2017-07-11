@@ -24,6 +24,15 @@ $ cp /usr/share/downloader/downloader.cfg.example ~/.config/downloader/downloade
 $ downloader ~/.config/downloader/downloader.cfg
 ```
 
+# Update
+
+Updating Downloader is easy :
+1. clone the repository again and execute *setup.py* script
+2. download the archive and execute *setup.py* script
+3. if you keep the repository just type the following: *git pull*
+
+However, more engine will be added and I'm feeling lazy right now so to update the future engine use one of the previous method and diff the configuration file for new settings.
+
 # For developer
 
 Adding an engine is easy see *engines* directory and read the following steps :
@@ -39,15 +48,6 @@ Adding an engine is easy see *engines* directory and read the following steps :
 - Filename is the file from the engine
 - Url is the download URL (can be the corresponding .torrent file or a magent link)
 - Seed is the seed for the corresponding file
-
-# Update
-
-Updating Downloader is easy :
-1. clone the repository again and execute *setup.py* script
-2. download the archive and execute *setup.py* script
-3. if you keep the repository just type the following: *git pull*
-
-However, more engine will be added and I'm feeling lazy right now so to update the future engine use one of the previous method and diff the configuration file for new settings.
 
 # Misc
 
