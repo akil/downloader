@@ -55,9 +55,9 @@ engines:
         separator: ' '
         username: username
         password: password
-        url-root: https://www.nextorrent.ws
-        url-login: https://www.nextorrent.ws/account
-        url-search: https://www.nextorrent.ws
+        url-root: https://www.nextorrent.ch
+        url-login: https://www.nextorrent.ch/account
+        url-search: https://www.nextorrent.ch
     nyaa:
         separator: +
         url-root: https://nyaa.si

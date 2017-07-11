@@ -22,7 +22,9 @@ def store(todownload, config):
 
     url = todownload.results['url']
     if not url.startswith('http://') and not url.startswith('https://'):
-        raise Exception("url:ko addr:%s" % url)
+        _LOG.error("url:ko addr:%s" % url)
+        print "\t[*] Can't store magnet link"
+        return
     
     if config['path'] is None:
         path = "%s.torrent" % tempfile.NamedTemporaryFile().name

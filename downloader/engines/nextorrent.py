@@ -46,6 +46,7 @@ class Nextorrent(engine.Engine):
         tree = etree.HTML(r.text.encode('utf-8'))
         for item in tree.xpath('//table/tbody/tr'):
             cells = item.xpath('td')
+
             if len(cells) == 1: return results
 
             a = cells[0].xpath('a/text()')

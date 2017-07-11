@@ -35,7 +35,7 @@ class X1337(engine.Engine):
             dwl   = self._session.get(urlparse.urljoin(self._config['url-root'], name.values().pop()))
             dtree = etree.HTML(dwl.text.encode('utf-8'))
 
-            link  = dtree.xpath('//a[contains(@class, "btn-magnet")]/@href')
+            link  = dtree.xpath('//a[contains(@class, "btn-fadbedbc")]/@href')
 
             if len(link) == 0: continue
 
