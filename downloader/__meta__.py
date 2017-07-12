@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__     = '1.0'
+__version__     = '1.1'
 __project__     = 'downloader'
 __description__ = 'multiple torrent-engine downloader'
 __epilog__      = '''

@@ -72,11 +72,16 @@ engines:
         separator: +
         url-root: http://1337x.to
         url-search: http://1337x.to/srch?search=
+    torrentproject:
+        separator: +
+        url-root: http://torrentproject.se
+        url-search: http://torrentproject.se/?t=
+
 
 ## excludes
 ##  If you don't want to look for some torrent engine just add it/them here. Format is the following
 ##   [torrents9, t411]
-excludes: []
+excludes: [torrents9,t411,1337x,nextorrent,nyaa]
 
 
 ## out

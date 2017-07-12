@@ -225,7 +225,12 @@ def download(video_file, torengines, recursion=True):
     curseed         = -1
 
     for e in filter(lambda engine: engine not in _SETTINGS['excludes'], torengines):
-        res, session = e.get(video_file.name(), _SETTINGS['engines'][e.name()])
+        ret = e.get(video_file.name(), _SETTINGS['engines'][e.name()])
+        if type(ret) is not tuple:
+            _LOG.error("%s:ko return:%s need:tuple" % (e.name(), type(ret)))
+            continue
+        
+        res, session = ret
         if not len(res): continue
         if not _check_results_fmt(res):
             TypeError("Bad results format for [ %s ]" % e.name())

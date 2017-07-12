@@ -1208,10 +1208,13 @@ Adding an engine is easy see *engines* directory and read the following steps :
 2) Check *engine.py* file in *engines/engine.py*
 3) Create your engine file (with the same name as *__init__.py*) in *engines* directory
 4) Name your class with the same name of the file and capitalized (Ex: nextorrent.py -> class Nextorrent(engine.Engine))
-5) *get* method must return a list of dictionaries like the following :
+5) *get* method must return a tuple of list and a session object:
+- list of dictionaries like the following :
 ```python
 [{'url': 'http://foo.com/file.torrent', 'seed': 5, 'filename': 'Black list S04E22 HDTV'}]
 ```
+- A request session object (so you have to use it for requesting your search engine)
+
 - Filename is the file from the engine
 - Url is the download URL (can be the corresponding .torrent file or a magent link)
 - Seed is the seed for the corresponding file
