@@ -81,7 +81,7 @@ engines:
 ## excludes
 ##  If you don't want to look for some torrent engine just add it/them here. Format is the following
 ##   [torrents9, t411]
-excludes: [torrents9,t411,1337x,nextorrent,nyaa]
+excludes: []
 
 
 ## out
