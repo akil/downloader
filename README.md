@@ -1213,11 +1213,10 @@ Adding an engine is easy see *engines* directory and read the following steps :
 ```python
 [{'url': 'http://foo.com/file.torrent', 'seed': 5, 'filename': 'Black list S04E22 HDTV'}]
 ```
+  - Filename is the file from the engine
+  - Url is the download URL (can be the corresponding .torrent file or a magent link)
+  - Seed is the seed for the corresponding file
 - A request session object (so you have to use it for requesting your search engine)
-
-- Filename is the file from the engine
-- Url is the download URL (can be the corresponding .torrent file or a magent link)
-- Seed is the seed for the corresponding file
 
 Do not filter the results, it's done by core Downloader program.
 
