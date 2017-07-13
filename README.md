@@ -1231,3 +1231,4 @@ Do not filter the results, it's done by core Downloader program.
   - nyaa
   - t411
   - 1337x
+  - torrentproject
