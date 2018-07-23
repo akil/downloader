@@ -25,6 +25,83 @@ $ cp /usr/share/downloader/downloader.cfg.example ~/.config/downloader/downloade
 
 Read the configuration file before starting Downloader.
 
+
+# Update
+
+Updating Downloader is easy :
+1. clone the repository again and execute *setup.py* script
+2. download the archive and execute *setup.py* script
+3. if you keep the repository just type the following command: *git pull*
+
+However, more search engine will be added and I'm feeling lazy right now so to update the future search engine use one of the previous method and diff the configuration file for new settings.
+
+# Killer setup
+
+1. Install Plex
+2. Install tranmission-daemon
+3. Plug Raspberry PI on your TV and install RasPlex
+4. Write a cron job for Downloader
+5. Enjoy your movies and series on your TV without doing anything ;)
+
+# Tips
+
+- If you want to begin a TV shows after S04E11 just create that file into your directory. Downloader do not care of the file type
+- If you named your directory with '720p','1080p','HDRip' Downloader will check for torrent file with that information
+- I use the following structure :
+
+```
+    /opt/multimedia/videos
+    ├── animes
+    │   ├── trickster.vostfr
+    │   └── trinity.blood.vostfr
+    ├── documentary
+    │   └── the.hacker.wars.doc
+    ├── movies
+    │   ├── Interstellar.1080p
+    │   └── war.dogs.2016
+    ├── series
+    │   ├── narcos
+    └── sports
+        ├── UFC.PPV
+        └── the.ultimate.tuf
+```
+
+# For developer
+
+Adding a search engine is easy see *engines* directory and read the following steps :
+
+1) Add your search engine filename (without .py extension) in *engines/__init__.py*
+2) Check *engine.py* file in *engines/engine.py*
+3) Create your search engine file (with the same name as *__init__.py*) in *engines* directory
+4) Name your class with the same name of the file and capitalized (Ex: nextorrent.py -> class Nextorrent(engine.Engine))
+5) *get* method must return a tuple of list and a session object:
+  - list of dictionaries like the following :
+     - Filename is the file from the search engine
+     - Url is the download URL (can be the coresponding .torrent file or a magent link)
+     - Seed is the seed for the corresponding file
+```python
+[{'url': 'http://foo.com/file.torrent', 'seed': 5, 'filename': 'Black list S04E22 HDTV'}]
+```
+
+   - A request session object (so you have to use it for requesting your search engine)
+
+Do not filter the results, it's done by core Downloader program.
+
+# Misc
+
+- Configuration file use YAML format, use only spaces.
+- Make a pull request for more search engine.
+- For now Downloader use the following torrent search engine :
+  - torrent9
+  - nextorrent
+  - nyaa
+  - t411
+  - 1337x
+  - torrentproject
+
+
+# ...
+
 ```
 $ downloader ~/.config/downloader/downloader.cfg
 	[+] the.mummy
@@ -1159,76 +1236,3 @@ $ downloader ~/.config/downloader/downloader.cfg
 	Download ->  [1337x]              Seed: 2937 File: UFC 213 Romero vs Whittaker PPV HDTV x264-Ebi [TJET]
 
 ```
-
-# Update
-
-Updating Downloader is easy :
-1. clone the repository again and execute *setup.py* script
-2. download the archive and execute *setup.py* script
-3. if you keep the repository just type the following command: *git pull*
-
-However, more search engine will be added and I'm feeling lazy right now so to update the future search engine use one of the previous method and diff the configuration file for new settings.
-
-# Killer setup
-
-1. Install Plex
-2. Install tranmission-daemon
-3. Plug Raspberry PI on your TV and install RasPlex
-4. Write a cron job for Downloader
-5. Enjoy your movies and series on your TV without doing anything ;)
-
-# Tips
-
-- If you want to begin a TV shows after S04E11 just create that file into your directory. Downloader do not care of the file type
-- If you named your directory with '720p','1080p','HDRip' Downloader will check for torrent file with that information
-- I use the following structure :
-
-```
-    /opt/multimedia/videos
-    ├── animes
-    │   ├── trickster.vostfr
-    │   └── trinity.blood.vostfr
-    ├── documentary
-    │   └── the.hacker.wars.doc
-    ├── movies
-    │   ├── Interstellar.1080p
-    │   └── war.dogs.2016
-    ├── series
-    │   ├── narcos
-    └── sports
-        ├── UFC.PPV
-        └── the.ultimate.tuf
-```
-
-# For developer
-
-Adding a search engine is easy see *engines* directory and read the following steps :
-
-1) Add your search engine filename (without .py extension) in *engines/__init__.py*
-2) Check *engine.py* file in *engines/engine.py*
-3) Create your search engine file (with the same name as *__init__.py*) in *engines* directory
-4) Name your class with the same name of the file and capitalized (Ex: nextorrent.py -> class Nextorrent(engine.Engine))
-5) *get* method must return a tuple of list and a session object:
-  - list of dictionaries like the following :
-     - Filename is the file from the search engine
-     - Url is the download URL (can be the coresponding .torrent file or a magent link)
-     - Seed is the seed for the corresponding file
-```python
-[{'url': 'http://foo.com/file.torrent', 'seed': 5, 'filename': 'Black list S04E22 HDTV'}]
-```
-
-   - A request session object (so you have to use it for requesting your search engine)
-
-Do not filter the results, it's done by core Downloader program.
-
-# Misc
-
-- Configuration file use YAML format, use only spaces.
-- Make a pull request for more search engine.
-- For now Downloader use the following torrent search engine :
-  - torrent9
-  - nextorrent
-  - nyaa
-  - t411
-  - 1337x
-  - torrentproject

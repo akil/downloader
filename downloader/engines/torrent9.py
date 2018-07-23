@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import cfscrape
+import urlparse
 from lxml import etree
 
 import os
@@ -25,7 +26,12 @@ class Torrent9(engine.Engine):
             filename = link.xpath('string()')
             seed     = item[2].xpath('span')[0].text
 
-            url = "%s/%s.torrent" % (self._config['url-download'], os.path.basename(rellink))
+            torurl  = urlparse.urljoin(self._config['url-root'], rellink)
+            torpage = self._session.get(torurl)        
+            tortree = etree.HTML(torpage.content)
+            torlink = tortree.xpath('//a[@class="btn btn-danger download"]')[0]
+
+            url = urlparse.urljoin(self._config['url-root'], torlink.get('href'))
 
             res.append({
                 'filename' : filename,
@@ -39,12 +45,8 @@ class Torrent9(engine.Engine):
     def _search(self, filename):
 
         f = filename.replace(self._config['separator'], '-').replace('.', '-')
-        u = "%s/%s.html" % (self._config['url-search'], f)
-        h = {
-            'User-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20100101 Firefox/21.0"
-        }
-        
-        p = self._session.get(u, headers=h)
+        u = "%s/%s.html" % (self._config['url-search'], f)        
+        p = self._session.get(u)
         p.close()
 
         tree  = etree.HTML(p.content)
@@ -64,7 +66,7 @@ class Torrent9(engine.Engine):
 
 
     def get(self, filename, config):
-
+    
         self._config  = config
         self._session = cfscrape.create_scraper()
 

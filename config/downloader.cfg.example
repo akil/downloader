@@ -48,9 +48,9 @@ patterns:
 engines:
     torrent9:
         separator: +
-        url-root: http://www.torrent9.biz
-        url-search: http://www.torrent9.biz/search_torrent
-        url-download: http://www.torrent9.biz/get_torrent
+        url-root: https://www.torrent9.blue
+        url-search: https://www.torrent9.blue/search_torrent
+        url-download: https://www.torrent9.blue/get_torrent
     nextorrent:
         separator: ' '
         username: username
@@ -76,13 +76,16 @@ engines:
         separator: +
         url-root: http://torrentproject.se
         url-search: http://torrentproject.se/?t=
-
+    isohunt:
+        separator: +
+        url-root: https://isohunt.to
+        url-search: https://isohunt.to/torrents/?ihq=
 
 ## excludes
 ##  If you don't want to look for some torrent engine just add it/them here. Format is the following
 ##   [torrents9, t411]
-excludes: []
-
+#excludes: [torrentproject,1337x,t411,nextorrent,torrent9,nyaa]
+excludes: [torrentproject,1337x,t411,nextorrent,nyaa,isohunt]
 
 ## out
 ##  What to do with download torrents. For now, you have two choices :

@@ -230,7 +230,7 @@ def download(video_file, torengines, recursion=True):
             _LOG.error("%s:ko return:%s need:tuple" % (e.name(), type(ret)))
             continue
         
-        res, session = ret
+        res, session = ret       
         if not len(res): continue
         if not _check_results_fmt(res):
             TypeError("Bad results format for [ %s ]" % e.name())

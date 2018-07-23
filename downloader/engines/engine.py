@@ -9,5 +9,5 @@ class Engine(object):
     def name(self):
         raise NotImplementedError("Implementation of engine name")
     
-    def get(self, filename):
+    def get(self, filename, config):
         raise NotImplementedError("Implementation of file downloading")
