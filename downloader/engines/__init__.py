@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['torrent9', 'nextorrent', 'nyaa', 't411', 'x1337', 'torrentproject']
+__all__ = ['torrent9', 'nyaa', 'yggtorrent', 'x1337', 'torrentproject']
 

@@ -10,19 +10,19 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 import engine
 
 
-class T411(engine.Engine):
+class Yggtorrent(engine.Engine):
     def __init__(self):
 
-        self._name    = 't411'
+        self._name    = 'yggtorrent'
         self._session = None
 
 
     def _login(self):
 
         payload = {
-            'login'    : self._config['username'],
-            'password' : self._config['password'],
-            'remember' : 1
+            'id'            : self._config['username'],
+            'pass'          : self._config['password'],
+            'ci_csrf_token' : 1
         }
 
         s = requests.session()
@@ -41,18 +41,21 @@ class T411(engine.Engine):
 
         results = list()
         
-        tree = etree.HTML(r.text.encode('utf-8'))
-        for item in tree.xpath('//table/tbody/tr'):
-            a = item.xpath('td/a')
-            s = item.xpath('td[8]')
+        tree = etree.HTML(r.text.encode('utf-8'))        
+        for item in tree.xpath('//table[@class="table"]/tbody/tr'):
 
-            filename = a[1].get('title').encode('ascii', 'xmlcharrefreplace')
-            link     = a[4].get('href').replace('nfo', 'download')
-            seed     = s[0].text
+            cells = item.xpath('td')
+
+            name  = cells[1].xpath('a/text()')[0]
+            torid = cells[2].xpath('a/@target')[0]
+            seed  = int(cells[7].text)
+            link  = "%s/engine/download_torrent?id=%s" % (self._config['url-root'], torid)
             
+            filename = name.encode('ascii', 'xmlcharrefreplace')
+
             results.append({
                 'filename' : filename,
-                'url'      : urlparse.urljoin(self._config['url-root'], link),
+                'url'      : link,
                 'seed'     : int(seed)
             })
 

@@ -51,23 +51,17 @@ engines:
         url-root: https://www.torrent9.blue
         url-search: https://www.torrent9.blue/search_torrent
         url-download: https://www.torrent9.blue/get_torrent
-    nextorrent:
-        separator: ' '
+    yggtorrent:
+        separator: +
         username: username
         password: password
-        url-root: https://www.nextorrent.ch
-        url-login: https://www.nextorrent.ch/account
-        url-search: https://www.nextorrent.ch
+        url-root: https://ww2.yggtorrent.is
+        url-login: https://ww2.yggtorrent.is/user/login
+        url-search: https://ww2.yggtorrent.is/engine/search?do=search&name=
     nyaa:
         separator: +
         url-root: https://nyaa.si
         url-search: https://nyaa.si/?f=0&c=0_0&q=
-    t411:
-        username: username
-        password: password
-        url-root: https://www.t411.al
-        url-login: https://www.t411.al/users/login
-        url-search: https://www.t411.al/torrents/search/?search=
     1337x:
         separator: +
         url-root: http://1337x.to
@@ -76,16 +70,12 @@ engines:
         separator: +
         url-root: http://torrentproject.se
         url-search: http://torrentproject.se/?t=
-    isohunt:
-        separator: +
-        url-root: https://isohunt.to
-        url-search: https://isohunt.to/torrents/?ihq=
+
 
 ## excludes
 ##  If you don't want to look for some torrent engine just add it/them here. Format is the following
 ##   [torrents9, t411]
-#excludes: [torrentproject,1337x,t411,nextorrent,torrent9,nyaa]
-excludes: [torrentproject,1337x,t411,nextorrent,nyaa,isohunt]
+excludes: []
 
 ## out
 ##  What to do with download torrents. For now, you have two choices :

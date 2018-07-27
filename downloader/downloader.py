@@ -288,13 +288,15 @@ def start(config, debug):
         return 2
 
     torengines = []
-    for e in filter(lambda e: e not in _SETTINGS['excludes'], engines.__all__):
+    for e in engines.__all__:
 
         engine_pkg = importlib.import_module("downloader.engines.%s" % e)
         engine_cls = getattr(engine_pkg, e.capitalize())
 
-        torengines.append( engine_cls() )
-
+        e_inst = engine_cls()
+        if e_inst.name() not in _SETTINGS['excludes']:
+            torengines.append( engine_cls() )
+    
     for directory, mode in _loop_directories(_SETTINGS['paths']):
         _LOG.debug("enter:%s mode:%d" % (directory, mode))
         for vf in _loop_files(directory, mode):

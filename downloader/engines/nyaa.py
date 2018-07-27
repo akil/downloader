@@ -20,8 +20,9 @@ class Nyaa(engine.Engine):
     def _search(self, filename):
 
         s = self._config['separator']
-        f = filename.replace('.', s).replace(' ', s)    
-        r = self._session.get("%s%s" % (self._config['url-search'], f), verify=False)
+        f = filename.replace('.', s).replace(' ', s)
+        u = "%s%s" % (self._config['url-search'], f)
+        r = self._session.get(u, verify=False)
 
         results = list()
   
@@ -29,21 +30,23 @@ class Nyaa(engine.Engine):
         for item in tree.xpath('//tbody/tr'):
             cells = item.xpath('td')
             if len(cells) == 1: continue
-                       
-            a = cells[1].xpath('a/text()')
-            s = cells[5].xpath('text()')
-            l = cells[2].xpath('a/@href')
 
-            if not len(l): continue
+            n = cells[1].xpath('a/text()')
+            if len(n) == 1:
+                name = n[0]
+            else:
+                name = n[2]
 
-            filename = a[0].encode('ascii', 'xmlcharrefreplace')
-            seed     = int(s[0])
-            url      = urlparse.urljoin(self._config['url-root'], l[0])
-
+            link = urlparse.urljoin(
+                self._config['url-root'],
+                cells[2].xpath('a/@href')[0])
+            seed = int(cells[5].xpath('text()')[0])
+            filename = name.encode('ascii', 'xmlcharrefreplace')
+            
             if seed != 0:
                 results.append({
                     'filename' : filename,
-                    'url'      : url,
+                    'url'      : link,
                     'seed'     : seed
                 })
 
