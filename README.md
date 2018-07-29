@@ -93,11 +93,11 @@ Do not filter the results, it's done by core Downloader program.
 - Make a pull request for more search engine.
 - For now Downloader use the following torrent search engine :
   - torrent9
-  - nextorrent
+  - ~~nextorrent~~
   - nyaa
-  - t411
+  - yggtorrent
   - 1337x
-  - torrentproject
+  - ~~torrentproject~~
 
 
 # ...

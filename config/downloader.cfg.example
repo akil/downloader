@@ -62,14 +62,14 @@ engines:
         separator: +
         url-root: https://nyaa.si
         url-search: https://nyaa.si/?f=0&c=0_0&q=
-    1337x:
-        separator: +
-        url-root: http://1337x.to
-        url-search: http://1337x.to/srch?search=
     torrentproject:
         separator: +
-        url-root: http://torrentproject.se
-        url-search: http://torrentproject.se/?t=
+        url-root: http://torrentproject2.se
+        url-search: http://torrentproject2.se/?t=
+    1337x:
+        separator: +
+        url-root: https://1337x.to
+        url-search: https://1337x.to/search/%s/1/
 
 
 ## excludes
