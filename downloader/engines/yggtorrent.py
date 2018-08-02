@@ -54,7 +54,7 @@ class Yggtorrent(engine.Engine):
             filename = name.encode('ascii', 'xmlcharrefreplace')
 
             results.append({
-                'filename' : filename,
+                'filename' : filename.strip(),
                 'url'      : link,
                 'seed'     : int(seed)
             })
