@@ -51,16 +51,16 @@ class Yggtorrent(engine.Engine):
             seed  = int(cells[7].text)
             link  = "%s/engine/download_torrent?id=%s" % (self._config['url-root'], torid)
             
-            filename = name.encode('ascii', 'xmlcharrefreplace')
+            filename = name.encode('ascii', 'xmlcharrefreplace').strip()
 
             results.append({
-                'filename' : filename.strip(),
+                'filename' : filename,
                 'url'      : link,
                 'seed'     : int(seed)
             })
 
         return results
-
+    
     
     def name(self):
 
