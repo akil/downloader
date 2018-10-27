@@ -11,6 +11,7 @@ import engine
 
 
 class Yggtorrent(engine.Engine):
+    
     def __init__(self):
 
         self._name    = 'yggtorrent'
@@ -20,16 +21,21 @@ class Yggtorrent(engine.Engine):
     def _login(self):
 
         payload = {
-            'id'            : self._config['username'],
-            'pass'          : self._config['password'],
-            'ci_csrf_token' : 1
+            'id'            : (None, self._config['username']),
+            'pass'          : (None, self._config['password']),
+            'ci_csrf_token' : (None, '')
         }
-
+        headers = {
+            'X-Requested-With' : 'XMLHttpRequest',
+            'Accept-Language'  : 'en-US,en;q=0.5',
+            'Accept-Encoding'  : 'gzip, deflate, br'
+        }
+        
         s = requests.session()
         s.headers.update({
             'User-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20100101 Firefox/21.0"
         })
-        r = s.post(self._config['url-login'], data=payload, verify=False)
+        r = s.post(self._config['url-login'], files=payload, headers=headers, verify=False)
 
         self._session = s
 

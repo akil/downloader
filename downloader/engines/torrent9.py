@@ -27,7 +27,7 @@ class Torrent9(engine.Engine):
             seed     = item[2].xpath('span')[0].text
 
             torurl  = urlparse.urljoin(self._config['url-root'], rellink)
-            torpage = self._session.get(torurl)        
+            torpage = self._session.get(torurl, verify=False)
             tortree = etree.HTML(torpage.content)
             torlink = tortree.xpath('//a[@class="btn btn-danger download"]')[0]
 
@@ -45,8 +45,8 @@ class Torrent9(engine.Engine):
     def _search(self, filename):
 
         f = filename.replace(self._config['separator'], '-').replace('.', '-')
-        u = "%s/%s.html" % (self._config['url-search'], f)        
-        p = self._session.get(u)
+        u = "%s/%s.html" % (self._config['url-search'], f)
+        p = self._session.get(u, verify=False)
         p.close()
 
         tree  = etree.HTML(p.content)
@@ -66,7 +66,7 @@ class Torrent9(engine.Engine):
 
 
     def get(self, filename, config):
-    
+
         self._config  = config
         self._session = cfscrape.create_scraper()
 

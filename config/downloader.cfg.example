@@ -48,16 +48,16 @@ patterns:
 engines:
     torrent9:
         separator: +
-        url-root: https://www.torrent9.blue
-        url-search: https://www.torrent9.blue/search_torrent
-        url-download: https://www.torrent9.blue/get_torrent
+        url-root: https://www.torrent9.ph
+        url-search: https://www.torrent9.ph/search_torrent
+        url-download: https://www.torrent9.ph/get_torrent
     yggtorrent:
         separator: +
         username: username
         password: password
-        url-root: https://ww2.yggtorrent.is
-        url-login: https://ww2.yggtorrent.is/user/login
-        url-search: https://ww2.yggtorrent.is/engine/search?do=search&name=
+        url-root: https://www6.yggtorrent.to
+        url-login: https://www6.yggtorrent.to/user/login
+        url-search: https://www6.yggtorrent.to/engine/search?do=search&name=
     nyaa:
         separator: +
         url-root: https://nyaa.si
@@ -124,7 +124,7 @@ logging:
             class: logging.handlers.RotatingFileHandler
             level: DEBUG
             formatter: simple
-            filename: /tmp/downloader.log
+            filename: /tmp/downloader.debug
             maxBytes: 10485760 # 10MB
             backupCount: 20
             encoding: utf8
