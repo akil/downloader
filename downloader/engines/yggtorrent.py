@@ -32,6 +32,9 @@ class Yggtorrent(engine.Engine):
         }
         
         s = requests.session()
+
+        s.get(self._config['url-root'], verify=False)
+        
         s.headers.update({
             'User-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20100101 Firefox/21.0"
         })
