@@ -20,7 +20,10 @@ class Torrent9(engine.Engine):
         res = list()
         for item in pagetree.xpath('//div[@class="table-responsive"]/table/tbody/tr'):
 
-            link = item[0].xpath('a')[0]
+            try:
+                link = item[0].xpath('a')[0]
+            except:
+                continue
 
             rellink  = link.get('href')
             filename = link.xpath('string()')
