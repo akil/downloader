@@ -300,7 +300,7 @@ def start(config, debug):
         _LOG.debug("enter:%s mode:%d" % (directory, mode))
         for vf in _loop_files(directory, mode):
             if mode == _MODE_SIMPLE:
-                download(vf, torengines)
+                download(vf, torengines)                
             else:
                 vf.next()
                 download(vf, torengines)
