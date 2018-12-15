@@ -27,7 +27,7 @@ class X1337(engine.Engine):
         tree = etree.HTML(p.text.encode('utf-8'))
         for item in tree.xpath('//table/tbody/tr'):
             cells = item.xpath('td')
-            print cells
+
             name     = cells[0].xpath('a')[1]
             filename = name.xpath('string(.)').strip().encode('ascii', 'xmlcharrefreplace')
             seed     = int(cells[1].xpath('string(.)').strip())
