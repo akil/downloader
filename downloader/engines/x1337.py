@@ -27,7 +27,7 @@ class X1337(engine.Engine):
         tree = etree.HTML(p.text.encode('utf-8'))
         for item in tree.xpath('//table/tbody/tr'):
             cells = item.xpath('td')
-
+            print cells
             name     = cells[0].xpath('a')[1]
             filename = name.xpath('string(.)').strip().encode('ascii', 'xmlcharrefreplace')
             seed     = int(cells[1].xpath('string(.)').strip())
@@ -42,7 +42,7 @@ class X1337(engine.Engine):
             l = list()
             for url in filter(lambda u: u.find('itorrents') != -1, link):
                 l.append(url)
-                
+
             if seed != 0:
                 results.append({
                     'filename' : filename,
@@ -70,3 +70,4 @@ class X1337(engine.Engine):
             self._session = cfscrape.create_scraper()
             
         return self._search(filename), self._session
+
