@@ -55,11 +55,12 @@ class Yggtorrent(engine.Engine):
 
             cells = item.xpath('td')
 
-            name  = cells[1].xpath('a/text()')[0]
-            torid = cells[2].xpath('a/@target')[0]
+            name   = cells[1].xpath('a/text()')[0]
+            linkdl = cells[1].xpath('a/@href')[0]
+            torid = cells[2].xpath('a/@target')[0] 
             seed  = int(cells[7].text)
             link  = "%s/engine/download_torrent?id=%s" % (self._config['url-root'], torid)
-            
+
             filename = name.encode('ascii', 'xmlcharrefreplace').strip()
 
             results.append({
