@@ -47,7 +47,7 @@ class Torrent9(engine.Engine):
 
     def _search(self, filename):
 
-        f = filename.replace(self._config['separator'], '-').replace('.', '-')
+        f = filename.replace('.', '-')
         u = "%s/%s.html" % (self._config['url-search'], f)
         p = self._session.get(u, verify=False)
         p.close()
