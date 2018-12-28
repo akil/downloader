@@ -42,7 +42,7 @@ class Gktorrent(engine.Engine):
             q.close()
 
             torpage = etree.HTML(q.content)
-            link    = torpage.xpath('//div[@class="downloading"]/div/a')[0]
+            link    = torpage.xpath('//div[@class="download"]/div/a')[0]
 
             url = urlparse.urljoin(self._config['url-root'], link.get('href'))
             
