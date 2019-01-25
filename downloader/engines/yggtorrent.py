@@ -45,6 +45,7 @@ class Yggtorrent(engine.Engine):
         
     def _search(self, filename):
 
+        f = filename.replace('.', self._config['separator']).replace(' ', self._config['separator'])
         u = "%s%s" % (self._config['url-search'], filename)
         r = self._session.get(u, verify=False)
 
