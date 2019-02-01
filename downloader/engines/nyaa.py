@@ -25,7 +25,7 @@ class Nyaa(engine.Engine):
         r = self._session.get(u, verify=False)
 
         results = list()
-  
+
         tree = etree.HTML(r.text.encode('utf-8'))
         for item in tree.xpath('//tbody/tr'):
             cells = item.xpath('td')
@@ -42,7 +42,7 @@ class Nyaa(engine.Engine):
                 cells[2].xpath('a/@href')[0])
             seed = int(cells[5].xpath('text()')[0])
             filename = name.encode('ascii', 'xmlcharrefreplace')
-            
+            print link
             if seed != 0:
                 results.append({
                     'filename' : filename,
@@ -65,8 +65,8 @@ class Nyaa(engine.Engine):
     def get(self, filename, config):
 
         self._config = config
-        
+
         if self._session is None:
             self._session = requests.session()
-            
+
         return self._search(filename), self._session

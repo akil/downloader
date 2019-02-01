@@ -22,6 +22,7 @@ libs = [
     'PyYaml',
     'requests',
     'cfscrape',
+    'lxml'
 ]
 install_requires = list()
 
