@@ -48,9 +48,9 @@ patterns:
 engines:
     torrent9:
         separator: +
-        url-root: https://www.torrent9.ph
-        url-search: https://www.torrent9.ph/search_torrent
-        url-download: https://www.torrent9.ph/get_torrent
+        url-root: https://www.torrent9.uno
+        url-search: https://www.torrent9.uno/search_torrent
+        url-download: https://www.torrent9.uno/get_torrent
     yggtorrent:
         separator: +
         username: username

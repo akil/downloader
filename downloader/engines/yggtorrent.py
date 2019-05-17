@@ -11,7 +11,7 @@ import engine
 
 
 class Yggtorrent(engine.Engine):
-    
+
     def __init__(self):
 
         self._name    = 'yggtorrent'
@@ -30,11 +30,11 @@ class Yggtorrent(engine.Engine):
             'Accept-Language'  : 'en-US,en;q=0.5',
             'Accept-Encoding'  : 'gzip, deflate, br'
         }
-        
+
         s = requests.session()
 
         s.get(self._config['url-root'], verify=False)
-        
+
         s.headers.update({
             'User-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20100101 Firefox/21.0"
         })
@@ -42,7 +42,7 @@ class Yggtorrent(engine.Engine):
 
         self._session = s
 
-        
+
     def _search(self, filename):
 
         f = filename.replace('.', self._config['separator']).replace(' ', self._config['separator'])
@@ -50,29 +50,29 @@ class Yggtorrent(engine.Engine):
         r = self._session.get(u, verify=False)
 
         results = list()
-        
-        tree = etree.HTML(r.text.encode('utf-8'))        
+
+        tree = etree.HTML(r.text.encode('utf-8'))
         for item in tree.xpath('//table[@class="table"]/tbody/tr'):
 
             cells = item.xpath('td')
 
             name   = cells[1].xpath('a/text()')[0]
             linkdl = cells[1].xpath('a/@href')[0]
-            torid = cells[2].xpath('a/@target')[0] 
+            torid = cells[2].xpath('a/@target')[0]
             seed  = int(cells[7].text)
             link  = "%s/engine/download_torrent?id=%s" % (self._config['url-root'], torid)
 
             filename = name.encode('ascii', 'xmlcharrefreplace').strip()
 
             results.append({
-                'filename' : filename,
+                'filename' : filename.encode('utf8'),
                 'url'      : link,
                 'seed'     : int(seed)
             })
 
         return results
-    
-    
+
+
     def name(self):
 
         return self._name
@@ -82,11 +82,11 @@ class Yggtorrent(engine.Engine):
 
         return self._config['url-root']
 
-    
+
     def get(self, filename, config):
 
         self._config = config
-        
+
         if self._session is None:
             self._login()
 

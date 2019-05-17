@@ -229,8 +229,8 @@ def download(video_file, torengines, recursion=True):
         if type(ret) is not tuple:
             _LOG.error("%s:ko return:%s need:tuple" % (e.name(), type(ret)))
             continue
-        
-        res, session = ret       
+
+        res, session = ret
         if not len(res): continue
         if not _check_results_fmt(res):
             TypeError("Bad results format for [ %s ]" % e.name())
@@ -295,12 +295,12 @@ def start(config, debug):
         e_inst = engine_cls()
         if e_inst.name() not in _SETTINGS['excludes']:
             torengines.append( engine_cls() )
-    
+
     for directory, mode in _loop_directories(_SETTINGS['paths']):
         _LOG.debug("enter:%s mode:%d" % (directory, mode))
         for vf in _loop_files(directory, mode):
             if mode == _MODE_SIMPLE:
-                download(vf, torengines)                
+                download(vf, torengines)
             else:
                 vf.next()
                 download(vf, torengines)
