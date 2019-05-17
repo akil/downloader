@@ -42,7 +42,7 @@ class Nyaa(engine.Engine):
                 cells[2].xpath('a/@href')[0])
             seed = int(cells[5].xpath('text()')[0])
             filename = name.encode('ascii', 'xmlcharrefreplace')
-            print link
+
             if seed != 0:
                 results.append({
                     'filename' : filename,
