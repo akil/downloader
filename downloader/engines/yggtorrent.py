@@ -3,6 +3,7 @@
 from lxml import etree
 import requests
 import urlparse
+import cfscrape
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -31,12 +32,13 @@ class Yggtorrent(engine.Engine):
             'Accept-Encoding'  : 'gzip, deflate, br'
         }
 
-        s = requests.session()
+        s = cfscrape.create_scraper()
 
         s.get(self._config['url-root'], verify=False)
 
         s.headers.update({
-            'User-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20100101 Firefox/21.0"
+            'User-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20100101 Firefox/21.0",
+            'referer'   : '{0}/?{1}'.format(self._config['url-root'], 'attempt=1')
         })
         r = s.post(self._config['url-login'], files=payload, headers=headers, verify=False)
 
