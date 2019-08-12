@@ -1,32 +1,31 @@
 ## paths
-##  Define directories path and type. Two types are used :
-##   - Type 1 : Also named SIMPLE type. it represents files without episodes or seasons information.
-##   - Type 2 : Also named COMPLEX type. it represents files with episodes or/and seasons information.
-##
-##  Settings format is the following :
-##   - name : not used, whatever name is ok
-##       path : directory path
-##       type : directory type
+##  Define directories path, mode, prefix.
+##  Two modes are used :
+##   - mode 1 : Files without episodes or seasons information.
+##   - mode 2 : Files with episodes or/and seasons information.
 #
 paths:
     - movies:
-        path: '/mnt/videos/movies'
-        mode: 1
+        path   : '/mnt/videos/movies'
+        mode   : 1
+        prefix :
     - series:
-        path: '/mnt/videos/series'
-        mode: 2
+        path   : '/mnt/videos/series'
+        mode   : 2
+        prefix : vostfr
     - animes:
-        path: '/mnt/videos/animes'
-        mode: 2
+        path   : '/mnt/videos/animes'
+        mode   : 2
+        prefix : vostfr
     - sports:
-        path: '/mnt/videos/sports'
-        mode: 2
+        path   : '/mnt/videos/sports'
+        mode   : 2
+        prefix :
     - documentary:
-        path: '/mnt/videos/documentary'
-        mode: 1
-    - showbiz:
-        path: '/mnt/videos/showbiz'
-        mode: 1
+        path   : '/mnt/videos/documentary'
+        mode   : 1
+        prefix :
+
 
 ## patterns
 ##  Regex to match type 2 files
