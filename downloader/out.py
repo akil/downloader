@@ -17,7 +17,6 @@ def _write_torrent(path, stream):
             f.write(chunk)
     stream.close()
 
-    
 def store(todownload, config):
 
     url = todownload.results['url']
@@ -25,7 +24,7 @@ def store(todownload, config):
         _LOG.error("url:ko addr:%s" % url)
         print "\t[*] Can't store magnet link"
         return
-    
+
     if config['path'] is None:
         path = "%s.torrent" % tempfile.NamedTemporaryFile().name
     else:
@@ -42,13 +41,13 @@ def cmd(todownload, config):
     url = todownload.results['url']
     if not url.startswith('http://') and not url.startswith('https://'):
         torrent = url
-    else:    
+    else:
         torrent = "%s.torrent" % tempfile.NamedTemporaryFile().name
         page    = todownload.session.get(url,
                                          stream=True,
                                          verify=False)
         _write_torrent(torrent, page)
-          
+
     path = todownload.vf.path
     cmd  = (' '.join(config['transmission']) % (torrent, path)).split()
 
@@ -63,11 +62,11 @@ def cmd(todownload, config):
 
         if int(r.returncode) != 0:
             _LOG.error("add:failed code:%d cmd:%r error:%s" % (r.returncode, cmd, stdout.replace('\n', ' ')))
-                
+
     if os.path.isfile(torrent): os.remove(torrent)
 
 
-        
+
 def cmd2(todownload, config):
 
     filepath = os.path.join(config['home'], 'cookies.txt')
@@ -81,7 +80,7 @@ def cmd2(todownload, config):
         _LOG.debug("cookie:ko error:%s" % str(e))
     else:
         os.chmod(filepath, 0777)
-        
+
         url, path = todownload.results['url'], todownload.vf.path
         cmd = (' '.join(config['transmission']) % (url, path)).split()
 
@@ -96,5 +95,5 @@ def cmd2(todownload, config):
 
             if int(r.returncode) != 0:
                 _LOG.error("add:failed code:%d cmd:%r error:%s" % (r.returncode, cmd, stdout.replace('\n', ' ')))
-                
+
         os.remove(filepath)
