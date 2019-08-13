@@ -3,12 +3,14 @@
 ##  Two modes are used :
 ##   - mode 1 : Files without episodes or seasons information.
 ##   - mode 2 : Files with episodes or/and seasons information.
+##  Prefix is used for search engine. Prefix "vo" mean Downloader
+##  will look for "files.vo".
 #
 paths:
     - movies:
         path   : '/mnt/videos/movies'
         mode   : 1
-        prefix :
+        prefix : none
     - series:
         path   : '/mnt/videos/series'
         mode   : 2
@@ -20,11 +22,11 @@ paths:
     - sports:
         path   : '/mnt/videos/sports'
         mode   : 2
-        prefix :
+        prefix : none
     - documentary:
         path   : '/mnt/videos/documentary'
         mode   : 1
-        prefix :
+        prefix : none
 
 
 ## patterns

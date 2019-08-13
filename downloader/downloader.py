@@ -26,9 +26,12 @@ _SETTINGS = None
 
 class VideoFile(object):
 
-    def __init__(self, filename, path, mode, rawfile=None):
+    def __init__(self, filename, path, mode, prefix, rawfile=None):
 
-        self.filename = filename
+        if prefix.lower() != 'none':
+            self.filename = "%s.%s" % (filename, prefix)
+        else:
+            self.filename = filename
         self.path     = path
         self.mode     = mode
 
@@ -82,7 +85,7 @@ def _loop_directories(items):
 
     for dirinfo in items:
         for name, details in dirinfo.iteritems():
-            yield (details.get('path'), details.get('mode'))
+            yield (details.get('path'), details.get('mode'), details.get('prefix'))
 
 
 def _extract_pattern(filename):
@@ -97,36 +100,36 @@ def _extract_pattern(filename):
     return (None, None)
 
 
-def _cast_vfiles(files, path, mode):
+def _cast_vfiles(files, path, mode, prefix):
 
-    _LOG.debug("dig:%r path:%s mode:%d" % (files, path, mode))
+    _LOG.debug("dig:%r path:%s mode:%d prefix:%s" % (files, path, mode, prefix))
     _vfiles = list()
 
     if mode == _MODE_SIMPLE:
         if len(files) == 0:
-            _vfiles.append(VideoFile(os.path.basename(path), path, mode))
+            _vfiles.append(VideoFile(os.path.basename(path), path, mode, prefix))
     elif mode == _MODE_COMPLEX:
         for f in files:
-            vf = VideoFile(os.path.basename(path), path, mode, f)
+            vf = VideoFile(os.path.basename(path), path, mode, prefix, f)
             if hasattr(vf, 'season'): _vfiles.append(vf)
 
         if len(files) == 0:
             p = os.path.basename(path)
-            _vfiles.append(VideoFile(p, path, mode, "%s s01e00" % p))
+            _vfiles.append(VideoFile(p, path, mode, prefix, "%s s01e00" % p))
 
     _LOG.debug("add:%r" % _vfiles)
 
     return _vfiles
 
 
-def _loop_files(path, mode):
+def _loop_files(path, mode, prefix):
 
     selectdirs = lambda f: not f.startswith('.') and os.path.isdir(os.path.join(path, f))
     for directory in filter(selectdirs, os.listdir(u'%s' % path)):
 
         abs_dirs = os.path.join(path, directory)
         _files   = os.listdir(abs_dirs)
-        _vfiles  = _cast_vfiles(_files, abs_dirs, mode)
+        _vfiles  = _cast_vfiles(_files, abs_dirs, mode, prefix)
 
         if not len(_vfiles): continue
 
@@ -270,7 +273,7 @@ def start(config, debug):
 
     try:
         with open(config, 'r') as input:
-            settings = yaml.load(input)
+            settings = yaml.safe_load(input)
             patterns = list()
             for p in settings['patterns']: patterns.append(re.compile(p))
             _SETTINGS = settings
@@ -296,9 +299,9 @@ def start(config, debug):
         if e_inst.name() not in _SETTINGS['excludes']:
             torengines.append( engine_cls() )
 
-    for directory, mode in _loop_directories(_SETTINGS['paths']):
-        _LOG.debug("enter:%s mode:%d" % (directory, mode))
-        for vf in _loop_files(directory, mode):
+    for directory, mode, prefix in _loop_directories(_SETTINGS['paths']):
+        _LOG.debug("enter:%s mode:%d prefix:%s" % (directory, mode, prefix))
+        for vf in _loop_files(directory, mode, prefix):
             if mode == _MODE_SIMPLE:
                 download(vf, torengines)
             else:

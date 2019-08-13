@@ -1,10 +1,10 @@
 # Downloader
 
-Downloader is a multiple search engine torrent downloader. It automatically detect which files to download and automatically look for next episode on torrent search engines.
+Downloader is a search engine for torrent. It automatically detect which files to download and automatically look for next episode on torrent search engines.
 
 # How it works
 
-Read the configuration file and set your video/whatever files directories. Downloader, uses two modes according to file type :
+Read the configuration file and set your video/whatever files directories. Downloader, uses two modes :
 * mode 1 : Means simple file
 * mode 2 : Means complex file like TV shows
 
@@ -52,8 +52,8 @@ However, more search engine will be added and I'm feeling lazy right now so to u
 ```
     /opt/multimedia/videos
     ├── animes
-    │   ├── trickster.vostfr
-    │   └── trinity.blood.vostfr
+    │   ├── trickster
+    │   └── trinity.blood.
     ├── documentary
     │   └── the.hacker.wars.doc
     ├── movies
