@@ -76,5 +76,5 @@ class Torrent9(engine.Engine):
 
         self._config  = config
         self._session = cfscrape.create_scraper()
-        filename = "hyperdrive s01e01"
+
         return self._search(filename), self._session
