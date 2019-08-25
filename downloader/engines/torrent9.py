@@ -18,7 +18,7 @@ class Torrent9(engine.Engine):
     def _results(self, pagetree):
 
         res = list()
-        for item in pagetree.xpath('//div[@class="table-responsive"]/table/tbody/tr'):
+        for item in pagetree.xpath('//div[@class="table-responsive"]/table/tr'):
 
             try:
                 link = item[0].xpath('a')[0]
@@ -33,7 +33,7 @@ class Torrent9(engine.Engine):
             torpage = self._session.get(torurl, verify=False)
             tortree = etree.HTML(torpage.content)
 
-            torlink = tortree.xpath('//a[@class="btn btn-danger download"]')[1]
+            torlink = tortree.xpath('//a[@class="btn btn-danger download"]')[0]
 
             url = urlparse.urljoin(self._config['url-root'], torlink.get('href'))
 
@@ -48,9 +48,12 @@ class Torrent9(engine.Engine):
 
     def _search(self, filename):
 
-        f = filename.replace('.', '-')
-        u = "%s/%s.html" % (self._config['url-search'], f)
-        p = self._session.get(u, verify=False)
+        query   = filename.replace('.', ' ')
+        payload = {'torrentSearch' : query}
+
+        url_search = urlparse.urljoin(self._config['url-search'], query)
+
+        p = self._session.post(url_search, data = payload, verify=False)
         p.close()
 
         tree  = etree.HTML(p.content)
@@ -73,5 +76,5 @@ class Torrent9(engine.Engine):
 
         self._config  = config
         self._session = cfscrape.create_scraper()
-
+        filename = "hyperdrive s01e01"
         return self._search(filename), self._session
