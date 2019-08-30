@@ -392,6 +392,7 @@ def start(config, debug):
                 video_title.extend(names)
                 vt = VideoTitle(p, mode, prefix, video_title)
                 for vf in _loop_files(vt):
+                    vf.next()
                     download(vf, torengines)
 
 
