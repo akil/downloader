@@ -22,7 +22,8 @@ libs = [
     'PyYaml',
     'requests',
     'cfscrape',
-    'lxml'
+    'lxml',
+    'python-magic'
 ]
 install_requires = list()
 
