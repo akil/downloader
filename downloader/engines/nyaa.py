@@ -69,4 +69,6 @@ class Nyaa(engine.Engine):
         if self._session is None:
             self._session = requests.session()
 
-        return self._search(filename), self._session
+        _filename = filename.replace(' ', '+').replace('.', '+')
+
+        return self._search(_filename), self._session
