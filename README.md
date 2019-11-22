@@ -92,11 +92,13 @@ Do not filter the results, it's done by core Downloader program.
 - Configuration file use YAML format, use only spaces.
 - Make a pull request for more search engine.
 - For now Downloader use the following torrent search engine :
-  - torrent9
+  - ~~torrent9~~
   - ~~nextorrent~~
   - nyaa
   - yggtorrent
   - 1337x
+  - oxtorrent
+  - gktorrent
   - ~~torrentproject~~
 
 

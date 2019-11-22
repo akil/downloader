@@ -3,6 +3,10 @@
 import cfscrape
 import urlparse
 from lxml import etree
+import requests
+
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 import os
 import engine
