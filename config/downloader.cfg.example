@@ -47,11 +47,11 @@ patterns:
 ##  for private tracker you need to set login and password.
 #
 engines:
-    torrent9:
+    oxtorrent:
         separator:
-        url-root: https://www.torrent9.cz
-        url-search: https://www.torrent9.cz/recherche
-        url-download: https://www.torrent9.cz/download
+        url-root: https://www.oxtorrent.com
+        url-search: https://www.oxtorrent.com
+        url-download: https://www.oxtorrent.com
     yggtorrent:
         separator: +
         username: username
