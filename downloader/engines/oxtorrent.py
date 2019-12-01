@@ -40,8 +40,9 @@ class Oxtorrent(engine.Engine):
 
             dlclass = tortree.xpath('//div[@class="btn-download"]').pop()
             dllink  = dlclass.xpath('a').pop().get('onclick')
+            d       = dllink.split('=', 1)[1].replace("'", "")
 
-            url = urlparse.urljoin(self._config['url-root'], dllink.split('=', 1)[1])
+            url = urlparse.urljoin(self._config['url-root'], d)
 
             res.append({
                 'filename' : filename,
@@ -78,5 +79,10 @@ class Oxtorrent(engine.Engine):
 
         self._config  = config
         self._session = cfscrape.create_scraper()
+
+        self._session.headers.update(
+            {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'}
+        )
+
 
         return self._search(filename), self._session
