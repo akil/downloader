@@ -39,14 +39,11 @@ class Oxtorrent(engine.Engine):
             query.close()
 
             dlclass = tortree.xpath('//div[@class="btn-download"]').pop()
-            dllink  = dlclass.xpath('a').pop().get('onclick')
-            d       = dllink.split('=', 1)[1].replace("'", "")
-
-            url = urlparse.urljoin(self._config['url-root'], d)
+            dllink  = dlclass.xpath('a').pop().get('href')
 
             res.append({
                 'filename' : filename,
-                'url'      : url,
+                'url'      : dllink,
                 'seed'     : seed
             })
 
