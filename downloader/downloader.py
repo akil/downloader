@@ -11,6 +11,7 @@ import tempfile
 import logging.config
 import collections
 import magic
+import codecs
 
 from . import __meta__
 from . import  out
@@ -306,7 +307,7 @@ def download(video_file, torengines, recursion=True):
 
         selected = -1
         for idx, r in enumerate(res):
-            r['filename'] = r['filename'].decode('utf-8')
+            r['filename'] = codecs.decode('utf-8')
 
             if check_results(r['filename'], video_file) == True:
                 _output_resfile(e.name(), r['seed'], r['filename'])
