@@ -254,7 +254,8 @@ def _output_resfile(engname, seed, filename):
                                             seed,
                                             'File:',
                                             filename)
-def _check_results_fmt(results):z
+
+def _check_results_fmt(results):
 
     field = ['url', 'filename', 'seed']
 
