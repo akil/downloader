@@ -248,13 +248,13 @@ def check_results(filename, video_file):
 
 def _output_resfile(engname, seed, filename):
 
-    print u"{0:20} {1} {2:3} {3} {4}".format("[%s]" %
-                                             engname,
-                                             'Seed:',
-                                             seed,
-                                             'File:',
-                                             filename)
-def _check_results_fmt(results):
+    print "{0:20} {1} {2:3} {3} {4}".format("[%s]" %
+                                            engname,
+                                            'Seed:',
+                                            seed,
+                                            'File:',
+                                            filename)
+def _check_results_fmt(results):z
 
     field = ['url', 'filename', 'seed']
 
