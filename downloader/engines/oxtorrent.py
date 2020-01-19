@@ -22,13 +22,12 @@ class Oxtorrent(engine.Engine):
     def _results(self, pagetree):
 
         res = list()
-        for item in pagetree.xpath('//table[@class="table table-hover"]/tbody/tr'):
-
+        for item in pagetree.xpath('//tbody/tr'):
             cells = item.xpath('td')
 
             if len(cells) != 4: continue
 
-            link  = cells[0].xpath('a').pop()
+            link  = cells[0].xpath('//div/a').pop()
 
             seed     = int(cells[2].xpath('text()').pop().strip())
             filename = link.text
@@ -80,6 +79,5 @@ class Oxtorrent(engine.Engine):
         self._session.headers.update(
             {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'}
         )
-
 
         return self._search(filename), self._session
