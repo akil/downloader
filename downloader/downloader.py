@@ -205,7 +205,7 @@ def _loop_files(video_title):
                     e = vf.episode
                     selected = idx
 
-        yield _vfiles[selected]
+        if selected: yield _vfiles[selected]
 
 
 def _extract_complex_content(path):
