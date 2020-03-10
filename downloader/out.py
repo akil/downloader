@@ -39,6 +39,9 @@ def store(todownload, config):
 def cmd(todownload, config):
 
     url = todownload.results['url']
+
+    _LOG.debug("url: %s" % url)
+
     if not url.startswith('http://') and not url.startswith('https://'):
         torrent = url
     else:

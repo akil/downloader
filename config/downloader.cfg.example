@@ -4,7 +4,8 @@
 ##   - mode 1 : Files without episodes or seasons information.
 ##   - mode 2 : Files with episodes or/and seasons information.
 ##  Prefix is used for search engine. Prefix "vo" mean Downloader
-##  will look for "files.vo".
+##  will look for "files.vo". Prefix, is a list so each prefix
+##  will be checked incrementally until a match has been found.
 #
 paths:
     - movies:
@@ -14,7 +15,7 @@ paths:
     - series:
         path   : '/mnt/videos/series'
         mode   : 2
-        prefix : vostfr
+        prefix : [vostfr,multi]
     - animes:
         path   : '/mnt/videos/animes'
         mode   : 2
