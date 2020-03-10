@@ -42,7 +42,7 @@ class Oxtorrent(engine.Engine):
 
             res.append({
                 'filename' : filename,
-                'url'      : urlparse.urljoin(self.url(), dllink)
+                'url'      : urlparse.urljoin(self.url(), dllink),
                 'seed'     : seed
             })
 
