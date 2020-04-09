@@ -32,7 +32,7 @@ class Yggtorrent(engine.Engine):
             'Accept-Encoding'  : 'gzip, deflate, br'
         }
 
-        s = cloudscraper.create_scraper()
+        s = cloudscraper.create_scraper(verify = False)
 
         s.get(self._config['url-root'], verify=False)
 
