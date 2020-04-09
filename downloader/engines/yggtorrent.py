@@ -3,7 +3,7 @@
 from lxml import etree
 import requests
 import urlparse
-import cfscrape
+import cloudscraper
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -32,7 +32,7 @@ class Yggtorrent(engine.Engine):
             'Accept-Encoding'  : 'gzip, deflate, br'
         }
 
-        s = cfscrape.create_scraper()
+        s = cloudscraper.create_scraper()
 
         s.get(self._config['url-root'], verify=False)
 

@@ -23,7 +23,8 @@ libs = [
     'requests',
     'cfscrape',
     'lxml',
-    'python-magic'
+    'python-magic',
+    'cloudscraper'
 ]
 install_requires = list()
 
