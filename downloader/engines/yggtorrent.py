@@ -32,9 +32,9 @@ class Yggtorrent(engine.Engine):
             'Accept-Encoding'  : 'gzip, deflate, br'
         }
 
-        s = cloudscraper.create_scraper(verify = False)
+        s = cloudscraper.create_scraper()
 
-        s.get(self._config['url-root'], verify=False)
+        s.get(self._config['url-root'])
 
         s.headers.update({
             'User-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20100101 Firefox/21.0",
@@ -49,7 +49,7 @@ class Yggtorrent(engine.Engine):
 
         f = filename.replace('.', self._config['separator']).replace(' ', self._config['separator'])
         u = "%s%s" % (self._config['url-search'], filename)
-        r = self._session.get(u, verify=False)
+        r = self._session.get(u)
 
         results = list()
 
