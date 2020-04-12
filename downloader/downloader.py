@@ -11,7 +11,7 @@ import tempfile
 import logging.config
 import collections
 import magic
-
+import pipes
 
 from . import __meta__
 from . import  out
@@ -30,7 +30,7 @@ class VideoTitle(object):
 
     def __init__(self, abs_path, mode, prefix, names):
 
-        self._path   = abs_path
+        self._path   = pipes.quote(abs_path)
         self._mode   = mode
         self._prefix = prefix
         self._names  = names

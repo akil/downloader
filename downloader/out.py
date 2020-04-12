@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import pipes
 import cookielib
 import tempfile
 import subprocess
@@ -52,7 +51,7 @@ def cmd(todownload, config):
                                          verify=False)
         _write_torrent(torrent, page)
 
-    path = pipes.quote(todownload.vf.path)
+    path = todownload.vf.path
     cmd  = (' '.join(config['transmission']) % (torrent, path)).split()
 
     try:
