@@ -17,7 +17,7 @@ paths:
         mode   : 2
         prefix : [vostfr,multi]
     - animes:
-        path   : '/mnt/videos/animes'
+       path   : '/mnt/videos/animes'
         mode   : 2
         prefix : vostfr
     - sports:

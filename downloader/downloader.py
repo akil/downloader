@@ -11,7 +11,6 @@ import tempfile
 import logging.config
 import collections
 import magic
-import pipes
 
 from . import __meta__
 from . import  out
@@ -90,7 +89,7 @@ class VideoFile(object):
             self.filename = "%s.%s" % (filename, prefix)
         else:
             self.filename = filename
-        self.path     = pipes.quote(path)
+        self.path     = path
         self.mode     = mode
 
         if self.mode == _MODE_COMPLEX:

@@ -5,7 +5,8 @@ import cookielib
 import tempfile
 import subprocess
 import logging
-
+import pipes
+import shlex
 
 _LOG = logging.getLogger(__name__)
 
@@ -51,11 +52,11 @@ def cmd(todownload, config):
                                          verify=False)
         _write_torrent(torrent, page)
 
-    path = todownload.vf.path
-    cmd  = (' '.join(config['transmission']) % (torrent, path)).split()
+    path = pipes.quote(todownload.vf.path)
+    cmd  = ' '.join(config['transmission']) % (torrent, path)
 
     try:
-        r = subprocess.Popen(cmd,
+        r = subprocess.Popen(shlex.split(cmd),
                              stdout = subprocess.PIPE,
                              stderr = subprocess.PIPE)
     except OSError as e:
