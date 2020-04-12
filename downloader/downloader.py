@@ -30,7 +30,7 @@ class VideoTitle(object):
 
     def __init__(self, abs_path, mode, prefix, names):
 
-        self._path   = pipes.quote(abs_path)
+        self._path   = abs_path
         self._mode   = mode
         self._prefix = prefix
         self._names  = names
@@ -90,7 +90,7 @@ class VideoFile(object):
             self.filename = "%s.%s" % (filename, prefix)
         else:
             self.filename = filename
-        self.path     = path
+        self.path     = pipes.quote(path)
         self.mode     = mode
 
         if self.mode == _MODE_COMPLEX:
