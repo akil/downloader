@@ -175,7 +175,7 @@ def _cast_vfiles(video_title):
 
         if not len(video_title.files()):
             p = os.path.basename(path)
-            _vfiles.append(VideoFile(p, path, video_title.mode(), video_title.prefix(), "%s s01e01" % p))
+            _vfiles.append(VideoFile(p, path, video_title.mode(), video_title.prefix(), "%s s01e00" % p))
 
     _LOG.debug("add:%r" % _vfiles)
 
@@ -204,7 +204,7 @@ def _loop_files(video_title):
                     e = vf.episode
                     selected = idx
 
-        if selected: yield _vfiles[selected]
+        yield _vfiles[selected]
 
 
 def _extract_complex_content(path):
