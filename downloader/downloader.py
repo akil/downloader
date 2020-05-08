@@ -189,7 +189,7 @@ def _loop_files(video_title):
     if video_title.mode() == _MODE_SIMPLE:
         for vf in _vfiles: yield vf
     elif video_title.mode() == _MODE_COMPLEX:
-        selected = 0
+        selected = -1
         s, e     = 0, 0
         for idx, vf in enumerate(_vfiles):
             if vf.season > s:
@@ -204,10 +204,7 @@ def _loop_files(video_title):
                     e = vf.episode
                     selected = idx
 
-        if selected > len(_vfiles):
-            _LOG.debug("select:%d vfiles:%r" % (selected, _vfiles))
-        else:
-            yield _vfiles[selected]
+        if selected != -1: yield _vfiles[selected]
 
 
 def _extract_complex_content(path):
