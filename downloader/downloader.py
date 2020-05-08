@@ -206,7 +206,6 @@ def _loop_files(video_title):
 
         if selected > len(_vfiles):
             _LOG.debug("select:%d vfiles:%r" % (selected, _vfiles))
-            return None
         else:
             yield _vfiles[selected]
 
