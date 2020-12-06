@@ -37,7 +37,7 @@ class Oxtorrent(engine.Engine):
             tortree = etree.HTML(query.content)
             query.close()
 
-            dlclass = tortree.xpath('//div[@class="btn-download"]').pop()
+            dlclass = tortree.xpath('//div[@class="btn-magnet"]').pop()
             dllink  = dlclass.xpath('a').pop().get('href')
 
             res.append({
