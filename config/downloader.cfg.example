@@ -57,9 +57,9 @@ engines:
         separator: +
         username: username
         password: password
-        url-root: https://www2.yggtorrent.si
-        url-login: https://www2.yggtorrent.si/user/login
-        url-search: https://www2.yggtorrent.si/engine/search?do=search&file=
+        url-root: https://www4.yggtorrent.li
+        url-login: https://www4.yggtorrent.li/user/login
+        url-search: https://www4.yggtorrent.li/engine/search?category=all&do=search&name=
     nyaa:
         separator: +
         url-root: https://nyaa.si

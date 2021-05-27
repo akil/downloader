@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import cfscrape
-import lxml.html.clean
 import requests
 import urlparse
 from lxml import etree
@@ -39,7 +38,7 @@ class Oxtorrent(engine.Engine):
             tortree = etree.HTML(query.content)
             query.close()
 
-            dlclass = tortree.xpath('//div[@class="btn-magnet"]').pop()
+            dlclass = tortree.xpath('//div[@class="btn-download"]').pop()
             dllink = dlclass.xpath("a").pop().get("href")
 
             res.append(
@@ -54,16 +53,16 @@ class Oxtorrent(engine.Engine):
 
     def _search(self, filename):
 
-        query = filename.replace(".", " ")
-        payload = {"torrentSearch": query}
-
-        url_search = self._config["url-root"]
-
-        p = self._session.post(url_search, data=payload, verify=False)
+        p = self._session.get(self._config["url-root"], verify=False)
         p.close()
 
-        page = lxml.html.clean.clean_html(p.content)
-        tree = etree.HTML(page)
+        query = filename.replace(".", " ")
+        url_search = "%s%s" % (self._config["url-search"], query)
+
+        p = self._session.get(url_search, verify=False)
+        p.close()
+        print p.content
+        tree = etree.HTML(p.content)
         res = self._results(tree)
 
         return res
@@ -83,7 +82,7 @@ class Oxtorrent(engine.Engine):
 
         self._session.headers.update(
             {
-                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"
+                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:72.0) Gecko/20100101 Firefox/72.0"
             }
         )
 
